@@ -2,6 +2,7 @@ import os
 import re
 import json
 import requests
+import webbrowser
 from urllib.parse import quote_plus
 
 # Mirrors may change over time as they get taken down.
@@ -25,8 +26,8 @@ def search(mirror, query, type='title'):
     '''
     assert(type in {'title', 'author', 'isbn'})
     url = s_url.format(mirror, quote_plus(query), type)
-    html = requests.get(url).text
-    return re.findall("<tr.*?><td>(\d+)", html)
+    r = requests.get(url); r.raise_for_status()
+    return re.findall("<tr.*?><td>(\d+)", r.text)
 
 
 def lookup(mirror, ids, fields=[
@@ -42,17 +43,32 @@ def lookup(mirror, ids, fields=[
     use fields=['*'].
     '''
     url = q_url.format(mirror, ','.join(ids), ','.join(fields))
-    return requests.get(url).json()
+    r = requests.get(url); r.raise_for_status()
+    return r.json()
 
 
-def download(mirror, md5, dest='.'):
+def download(mirror, md5, dest='.', use_browser=False):
     '''Downloads a book given its libgen MD5 hash to the destination
-    directory. Bypasses ads.php redirect by parsing the download key.'''
+    directory. Bypasses ads.php redirect by parsing the download key.
+    
+    Programmatically sending key-authenticated dl requests seem to 
+    get delayed by libgen (hence very slow), so pass True to use_browser
+    to open the link directly and download manually.
+
+    Note that if you spam download requests, libgen will 503 you.
+    Use this function at a reasonable rate!
+    '''
     
     url = d_url.format(mirror, md5)
-    key = re.findall("&key=(.*?)'", requests.get(url).text)[0]
-    r = requests.get(url + '&key={}'.format(key))
+    r = requests.get(url); r.raise_for_status()
+    key = re.findall("&key=(.*?)'", r.text)[0]
+    auth_url = url + '&key={}'.format(key)
 
+    if use_browser:
+        webbrowser.open_new_tab(auth_url)
+        return
+
+    r = requests.get(auth_url); r.raise_for_status()
     # TODO either get or pass metadata such as book title
     # and file extension so I can save a properly named file.
     with open(os.path.join(dest, md5), 'wb') as f:
@@ -72,5 +88,5 @@ if __name__ == '__main__':
     for entry in data:
         if entry.get('extension', '') in {'pdf'}:
             pprint(entry)
-            print('\nDownloading...\n')
-            download(m, entry['md5'])
+
+    # download(m, data[0]['md5'], use_browser=True)
