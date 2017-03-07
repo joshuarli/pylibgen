@@ -2,7 +2,10 @@ import os
 import re
 import json
 import requests
+from urllib.parse import quote_plus
 
+# Mirrors may change over time as they get taken down.
+# These two work at the time of development.
 MIRRORS = [
     'libgen.io',
     'gen.lib.rus.ec',
@@ -13,7 +16,20 @@ d_url = 'http://{}/get.php?md5={}'
 q_url = 'http://{}/json.php?ids={}&fields={}'
 
 
-def get_metadata(mirror, ids, fields=[
+def search(mirror, query, type='title'):
+    '''Performs a search query to libgen and returns a list of
+    libgen book IDs that matched the query.
+
+    You can specify a search type: title, author, isbn.
+    For ISBN searches, the query can be ISBN 10 or 13, either is fine.
+    '''
+    assert(type in {'title', 'author', 'isbn'})
+    url = s_url.format(mirror, quote_plus(query), type)
+    html = requests.get(url).text
+    return re.findall("<tr.*?><td>(\d+)", html)
+
+
+def lookup(mirror, ids, fields=[
         'title', 'author', 'year', 'edition', 'pages',
         'identifier', 'extension', 'filesize', 'md5'
     ]):
@@ -46,6 +62,15 @@ def download(mirror, md5, dest='.'):
 
 if __name__ == '__main__':
     # Example usage.
-    j = get_metadata(MIRRORS[0], ids=['1', '2', '3'])
+    m = MIRRORS[0]
+
+    data = lookup(m, ids=search(
+        m, 'automate the boring stuff', 'title'
+    ))
+    
     from pprint import pprint
-    pprint(j)
+    for entry in data:
+        if entry.get('extension', '') in {'pdf'}:
+            pprint(entry)
+            print('\nDownloading...\n')
+            download(m, entry['md5'])
