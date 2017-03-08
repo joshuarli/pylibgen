@@ -12,9 +12,9 @@ MIRRORS = [
     'gen.lib.rus.ec',
 ]
 
-s_url = 'http://{}/search.php?req={}&res=100&column={}'
-d_url = 'http://{}/get.php?md5={}'
-q_url = 'http://{}/json.php?ids={}&fields={}'
+SEARCH_URL = 'http://{}/search.php?req={}&res=100&column={}'
+LOOKUP_URL = 'http://{}/json.php?ids={}&fields={}'
+DOWNLOAD_URL = 'http://{}/get.php?md5={}'
 
 
 def search(mirror, query, type='title'):
@@ -25,7 +25,7 @@ def search(mirror, query, type='title'):
     For ISBN searches, the query can be ISBN 10 or 13, either is fine.
     '''
     assert(type in {'title', 'author', 'isbn'})
-    url = s_url.format(mirror, quote_plus(query), type)
+    url = SEARCH_URL.format(mirror, quote_plus(query), type)
     r = requests.get(url); r.raise_for_status()
     return re.findall("<tr.*?><td>(\d+)", r.text)
 
@@ -42,41 +42,55 @@ def lookup(mirror, ids, fields=[
     more like openlibraryid, publisher, etc. To get all fields,
     use fields=['*'].
     '''
-    url = q_url.format(mirror, ','.join(ids), ','.join(fields))
+    url = LOOKUP_URL.format(mirror, ','.join(ids), ','.join(fields))
     r = requests.get(url); r.raise_for_status()
     return r.json()
 
 
-def download(mirror, md5, dest='.', use_browser=False):
-    '''Downloads a book given its libgen MD5 hash to the destination
-    directory. Bypasses ads.php redirect by parsing the download key.
-    
-    Programmatically sending key-authenticated dl requests seem to 
-    get delayed by libgen (hence very slow), so pass True to use_browser
-    to open the link directly and download manually.
+def get_download_url(mirror, md5, enable_ads=False):
+    '''Given the libgen MD5 hash of a book, this returns a valid but
+    temporary (keys expire) URL for a direct download. The key is parsed
+    from the initial redirect to ads.php.
 
-    Note that if you spam download requests, libgen will 503 you.
-    Use this function at a reasonable rate!
+    If you want to support Library Genesis, setting enable_ads to True
+    will just return the download URL with no key, which redirects to ads.php.
     '''
-    
-    url = d_url.format(mirror, md5)
+    url = DOWNLOAD_URL.format(mirror, md5)
+    if enable_ads:
+        return url
     r = requests.get(url); r.raise_for_status()
     key = re.findall("&key=(.*?)'", r.text)[0]
-    auth_url = url + '&key={}'.format(key)
+    return url + '&key={}'.format(key)
+
+
+
+def download(mirror, md5, dest='.', use_browser=False):
+    '''Downloads a book given its libgen MD5 hash to the destination directory.
+    
+    Libgen seems to delay programmatically sent dl requests, even if the UA
+    string is spoofed and the URL contains a good key, so I recommend just 
+    using get_download_url. Alternatively, you can set use_browser=True, which
+    will just open up the download URL in a new browser tab.
+    
+    Note that if you spam download requests, libgen will temporarily 503.
+    Again, I recommend using get_download_url and downloading from the browser.
+    '''
+    auth_url = get_download_url(mirror, md5)
 
     if use_browser:
         webbrowser.open_new_tab(auth_url)
         return
 
     r = requests.get(auth_url); r.raise_for_status()
-    # TODO either get or pass metadata such as book title
-    # and file extension so I can save a properly named file.
+
     with open(os.path.join(dest, md5), 'wb') as f:
         for chunk in r.iter_content(1024):
             f.write(chunk)
 
 
 if __name__ == '__main__':
+    exit()
+
     # Example usage.
     m = MIRRORS[0]
 
@@ -88,5 +102,4 @@ if __name__ == '__main__':
     for entry in data:
         if entry.get('extension', '') in {'pdf'}:
             pprint(entry)
-
-    # download(m, data[0]['md5'], use_browser=True)
+            print(get_download_url(m, entry['md5']))
