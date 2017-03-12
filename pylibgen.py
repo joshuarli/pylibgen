@@ -86,20 +86,3 @@ def download(mirror, md5, dest='.', use_browser=False):
     with open(os.path.join(dest, md5), 'wb') as f:
         for chunk in r.iter_content(1024):
             f.write(chunk)
-
-
-if __name__ == '__main__':
-    exit()
-
-    # Example usage.
-    m = MIRRORS[0]
-
-    data = lookup(m, ids=search(
-        m, 'automate the boring stuff', 'title'
-    ))
-    
-    from pprint import pprint
-    for entry in data:
-        if entry.get('extension', '') in {'pdf'}:
-            pprint(entry)
-            print(get_download_url(m, entry['md5']))
