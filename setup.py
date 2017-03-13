@@ -48,6 +48,7 @@ setup(
     license=LICENSE,
     classifiers=CLASSIFIERS,
     keywords=KEYWORDS,
-    packages=find_packages(),
+    # packages=find_packages(),
+    py_modules=['pylibgen'],
     install_requires=REQUIRED_PACKAGES,
 )
