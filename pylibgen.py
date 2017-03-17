@@ -5,6 +5,8 @@ import requests
 import webbrowser
 from urllib.parse import quote_plus
 
+import topic_tuple
+
 # Mirrors may change over time as they get taken down.
 # These two work at the time of development.
 MIRRORS = [
@@ -12,22 +14,31 @@ MIRRORS = [
     'gen.lib.rus.ec',
 ]
 
-SEARCH_URL = 'http://{}/search.php?req={}&res=100&column={}'
+#SEARCH_URL = 'http://{}/search.php?req=100&res={}&column={}' # changed search format
+SEARCH_URL = 'http://{}/search.php?req={}&open=0&column={}'
 LOOKUP_URL = 'http://{}/json.php?ids={}&fields={}'
 DOWNLOAD_URL = 'http://{}/get.php?md5={}'
 
+TOPICS = topic_tuple.TOPICS
 
 def search(mirror, query, type='title'):
     '''Performs a search query to libgen and returns a list of
     libgen book IDs that matched the query.
 
-    You can specify a search type: title, author, isbn.
+    You can specify a search type: title, author, isbn, topic.
     For ISBN searches, the query can be ISBN 10 or 13, either is fine.
     '''
-    assert(type in {'title', 'author', 'isbn'})
-    url = SEARCH_URL.format(mirror, quote_plus(query), type)
+    assert(type in {'title', 'author', 'isbn', 'topic'})
+
+    if type == 'topic':
+        assert(TOPICS[query]), 'for a list of possible topics run pylibgen.topics() or pylibgen.classes()'
+        print(TOPICS[query])
+        url = SEARCH_URL.format(mirror, TOPICS[query], type)
+    else:
+        url = SEARCH_URL.format(mirror, quote_plus(query), type)
     r = requests.get(url); r.raise_for_status()
     return re.findall("<tr.*?><td>(\d+)", r.text)
+
 
 
 def lookup(mirror, ids, fields=[
@@ -86,3 +97,44 @@ def download(mirror, md5, dest='.', use_browser=False):
     with open(os.path.join(dest, md5), 'wb') as f:
         for chunk in r.iter_content(1024):
             f.write(chunk)
+
+def topics():
+    '''Print the possible list of topics.
+    
+    Libgen seems to delay programmatically sent dl requests, even if the UA
+    string is spoofed and the URL contains a good key, so I recommend just 
+    using get_download_url. Alternatively, you can set use_browser=True, which
+    will just open up the download URL in a new browser tab.
+    
+    Note that if you spam download requests, libgen will temporarily 503.
+    Again, I recommend using get_download_url and downloading from the browser.
+    '''
+
+    sorted_t = sorted(TOPICS, key=lambda tup: tup[1], reverse=True)
+    sorted_t = sorted(sorted_t, key=lambda tup: tup[0])
+    print("Possible topics are")
+    for t in sorted_t:
+        if t.find('/') != -1:
+            print(t)
+
+def classes():
+    '''Print the possible list of classes.
+    
+    Libgen seems to delay programmatically sent dl requests, even if the UA
+    string is spoofed and the URL contains a good key, so I recommend just 
+    using get_download_url. Alternatively, you can set use_browser=True, which
+    will just open up the download URL in a new browser tab.
+    
+    Note that if you spam download requests, libgen will temporarily 503.
+    Again, I recommend using get_download_url and downloading from the browser.
+    '''
+
+    sorted_t = sorted(TOPICS, key=lambda tup: tup[1], reverse=True)
+    sorted_t = sorted(sorted_t, key=lambda tup: tup[0])
+    print("Possible classes are")
+    for t in sorted_t:
+        if t.find('/') == -1:
+            print(t)
+
+
+
