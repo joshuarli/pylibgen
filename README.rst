@@ -10,7 +10,7 @@ Installation
 pylibgen can be installed through pip!
 ::
 
-    $ pip install pylibgen
+    $ pip3 install pylibgen --user
 
 Alternatively, you can just put a copy of :code:`pylibgen.py` to wherever you need it:
 ::
@@ -48,7 +48,7 @@ You're probably looking for pylibgen-cli_, which is a CLI wrapper around pylibge
 Compatibility
 ---------------------
 
-pylibgen supports python 3.3 - 3.6.
+pylibgen is tested to work with python 3.3 - 3.6.
 
 Notes
 ---------------------
@@ -58,14 +58,14 @@ Due to the nature of the service Library Genesis provides, its mirrors often get
 Support Library Genesis!
 --------------------------
 
-The :code:`get_download_url` implementation will parse the temporary download key necessary for a direct download URL from the libgen ads.php redirect.
+:code:`get_download_url` will, by default, parse the temporary download key necessary for a direct download URL from libgen's ads.php redirect.
 
-If you want to support Library Genesis, I recommend passing :code:`enable_ads=True` to :code:`get_download_url`, as this will return the plain MD5 download URL which shows an ad first.
+If you want to support Library Genesis, I recommend passing :code:`enable_ads=True` to :code:`get_download_url`, as this will return the plain download URL, which shows an ad first when visited.
 
 Disclaimer
 ---------------------
 
-Use this at your own risk. I am not responsible/liable for any piracy/copyright infringement/etc. committed by anyone using pylibgen. Blah blah lawyer stuff, etc.
+Use this at your own risk. I am not responsible or liable for any piracy, copyright infringement, or other things committed by anyone using pylibgen. Blah blah lawyer stuff, etc.
 
 
 .. _pylibgen-cli: https://github.com/JoshuaRLi/pylibgen-cli

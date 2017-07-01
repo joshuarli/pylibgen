@@ -4,7 +4,9 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+branches:
+  only:
+  - master
 
-install: "pip install pylibgen -r requirements.txt"
-
-script: "python -m pylibgen test_pylibgen.py"
+install: "python setup.py install"
+script: "make test"
