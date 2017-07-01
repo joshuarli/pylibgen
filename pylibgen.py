@@ -1,6 +1,5 @@
 import os
 import re
-import json
 import requests
 import webbrowser
 from urllib.parse import quote_plus
@@ -11,10 +10,20 @@ MIRRORS = [
     'libgen.io',
     'gen.lib.rus.ec',
 ]
-
 SEARCH_URL = 'http://{}/search.php?req={}&res=100&column={}'
 LOOKUP_URL = 'http://{}/json.php?ids={}&fields={}'
 DOWNLOAD_URL = 'http://{}/get.php?md5={}'
+DEFAULT_FIELDS = [
+    'title',
+    'author',
+    'year',
+    'edition',
+    'pages',
+    'identifier',
+    'extension',
+    'filesize',
+    'md5',
+]
 
 
 def search(mirror, query, type='title'):
@@ -26,24 +35,23 @@ def search(mirror, query, type='title'):
     '''
     assert(type in {'title', 'author', 'isbn'})
     url = SEARCH_URL.format(mirror, quote_plus(query), type)
-    r = requests.get(url); r.raise_for_status()
+    r = requests.get(url)
+    r.raise_for_status()
     return re.findall("<tr.*?><td>(\d+)", r.text)
 
 
-def lookup(mirror, ids, fields=[
-        'title', 'author', 'year', 'edition', 'pages',
-        'identifier', 'extension', 'filesize', 'md5'
-    ]):
+def lookup(mirror, ids, fields=DEFAULT_FIELDS):
     '''Returns a list of JSON dicts each containing metadata field
     values for each libgen book ID. Uses the unofficial libgen query
     API to retrieve this information.
-    
+
     The default fields are probably enough, but there are a LOT
     more like openlibraryid, publisher, etc. To get all fields,
     use fields=['*'].
     '''
     url = LOOKUP_URL.format(mirror, ','.join(ids), ','.join(fields))
-    r = requests.get(url); r.raise_for_status()
+    r = requests.get(url)
+    r.raise_for_status()
     return r.json()
 
 
@@ -58,20 +66,20 @@ def get_download_url(mirror, md5, enable_ads=False):
     url = DOWNLOAD_URL.format(mirror, md5)
     if enable_ads:
         return url
-    r = requests.get(url); r.raise_for_status()
+    r = requests.get(url)
+    r.raise_for_status()
     key = re.findall("&key=(.*?)'", r.text)[0]
     return url + '&key={}'.format(key)
 
 
-
 def download(mirror, md5, dest='.', use_browser=False):
     '''Downloads a book given its libgen MD5 hash to the destination directory.
-    
+
     Libgen seems to delay programmatically sent dl requests, even if the UA
-    string is spoofed and the URL contains a good key, so I recommend just 
+    string is spoofed and the URL contains a good key, so I recommend just
     using get_download_url. Alternatively, you can set use_browser=True, which
     will just open up the download URL in a new browser tab.
-    
+
     Note that if you spam download requests, libgen will temporarily 503.
     Again, I recommend using get_download_url and downloading from the browser.
     '''
@@ -81,7 +89,8 @@ def download(mirror, md5, dest='.', use_browser=False):
         webbrowser.open_new_tab(auth_url)
         return
 
-    r = requests.get(auth_url); r.raise_for_status()
+    r = requests.get(auth_url)
+    r.raise_for_status()
 
     with open(os.path.join(dest, md5), 'wb') as f:
         for chunk in r.iter_content(1024):
