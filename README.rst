@@ -27,8 +27,8 @@ Usage
 
     ['1421206', '1421207', '1421208', '1351717', '1381538', '1381540', '1529338']
     
-    >>> data = lg.lookup(ids)
-    >>> from pprint import pprint; pprint(data[0])
+    >>> books = lg.lookup(ids)
+    >>> from pprint import pprint; pprint(books[0])
 
     {'author': 'Albert Sweigart',
      'edition': '',
@@ -41,7 +41,7 @@ Usage
               'Total Beginners',
      'year': '2015'}
 
-    >>> lg.get_download_url(data[0]['md5'])
+    >>> lg.get_download_url(books[0]['md5'])
 
     'http://libgen.io/get.php?md5=054255117b2e86251415292ef48320fd&key=NQTP585IPY102LYG'
 

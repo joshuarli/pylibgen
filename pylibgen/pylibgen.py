@@ -13,6 +13,12 @@ class Library(object):
         assert(mirror in constants.MIRRORS)
         self.mirror = mirror
 
+    def __repr__(self):
+        return '<Library using mirror {}>'.format(self.mirror)
+
+    def __str__(self):
+        return self.__repr__
+
     def search(self, query, type='title'):
         """Searches Library Genesis.
 
@@ -60,6 +66,8 @@ class Library(object):
         """Gets a direct download URL to a Library Genesis book.
 
         Note:
+            This is actually specific only to the libgen.io mirror!
+            Will need to be rewritten if things change.
             Use lookup() to obtain the MD5s for Library Genesis books.
             To support Library Genesis, pass True to enable_ads.
             See the package README for more detail.
@@ -77,7 +85,7 @@ class Library(object):
             return url
         r = self.__req('download', {'md5': md5})
         key = re.findall("&key=(.*?)'", r.text)[0]
-        return url + '&key={}'.format(key)
+        return '{}&key={}'.format(url, key)
 
     def download(self, md5, dest='.', use_browser=False):
         """Downloads a Library Genesis book.
