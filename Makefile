@@ -6,7 +6,7 @@ clean:
 	rm -rf __pycache__/ build/ dist/ *.egg-info/ .cache/
 
 style:
-	@flake8 --exclude tests/test_*.py __init__.py
+	flake8 --exclude tests/test_*.py __init__.py
 
 test: style
 	python3 -m pytest -s tests/test_*.py
@@ -14,13 +14,13 @@ test: style
 build: clean test
 # Builds the package into a source dist and a wheel binary,
 # then installs locally.
-	python3 setup.py sdist bdist_wheel
-	python3 -m pip install dist/*.whl --user --upgrade
+	python3 setup.py sdist bdist_wheel > /dev/null
+	python3 -m pip install dist/*.whl --user --upgrade > /dev/null
 
 register:
 # Registers the package on PyPI.
 	test -f ~/.pypirc
-	python3 setup.py register -r pypi
+	python3 setup.py register -r pypi > /dev/null
 
 publish: build register
 # Updates the VERSION file, commits and tags that change, pushes to GitHub
