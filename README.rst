@@ -24,10 +24,10 @@ You're probably looking for pylibgen-cli_, which is a CLI wrapper around pylibge
 
 .. code-block:: pycon
 
-    >>> import pylibgen
-    >>> m = pylibgen.MIRRORS[0]
-    >>> ids = pylibgen.search(m, 'automate the boring stuff', 'title')
-    >>> data = pylibgen.lookup(m, ids)
+    >>> from pylibgen import pylibgen
+    >>> lg = pylibgen.Library()
+    >>> ids = lg.search('automate the boring stuff', 'title')
+    >>> data = lg.lookup(ids)
     >>> from pprint import pprint; pprint(data[0])
 
     {'author': 'Albert Sweigart',
@@ -41,7 +41,7 @@ You're probably looking for pylibgen-cli_, which is a CLI wrapper around pylibge
               'Total Beginners',
      'year': '2015'}
 
-    >>> pylibgen.get_download_url(m, data[0]['md5'])
+    >>> lg.get_download_url(data[0]['md5'])
 
     'http://libgen.io/get.php?md5=054255117b2e86251415292ef48320fd&key=NQTP585IPY102LYG'
 

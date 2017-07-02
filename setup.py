@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 AUTHOR_GITHUB = 'JoshuaRLi'
 SETUP_BASE = {
@@ -18,10 +18,7 @@ SETUP_BASE = {
         'ebooks',
         'textbooks',
     ],
-    # 'packages': find_packages(exclude=['tests']),
-    'py_modules': [
-        'pylibgen',
-    ],
+    'packages': find_packages(exclude=['tests']),
     # 'entry_points': {
     #     'console_scripts': [
     #         'executable_name=package:module:main',
