@@ -6,11 +6,9 @@ clean:
 	rm -rf __pycache__/ build/ dist/ *.egg-info/ .cache/
 
 style:
-# Ensure PEP 8 compliant code.
-	python3 setup.py flake8
+	@flake8 --exclude tests/test_*.py __init__.py
 
 test: style
-# Local testing using the system python3 installation.
 	python3 -m pytest -s tests/test_*.py
 
 build: clean test
