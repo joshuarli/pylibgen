@@ -1,10 +1,10 @@
-from pylibgen import pylibgen, constants
+from pylibgen import Library, constants
 
 # Ensure that API endpoints are working and returning the
 # expected responses for all mirrors.
 def test_api_endpoints():
     for mirror in constants.MIRRORS:
-        lg = pylibgen.Library(mirror)
+        lg = Library(mirror)
         ids = lg.search('automate the boring stuff', 'title')
         assert set(ids) == set([
             '1421206', '1421207', '1421208', '1351717',
