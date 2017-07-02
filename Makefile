@@ -1,22 +1,19 @@
-.PHONY: test clean style build register publish
+.PHONY: todo clean style test build register publish
 
 all: build
 
-todo:
-	@grep -ri TODO
-
 clean:
 	rm -rf __pycache__/ build/ dist/ *.egg-info/ .cache/
-
-test:
-# Local testing using the system python3 installation.
-	python3 -m pytest -s tests/test_*.py
 
 style:
 # Ensure PEP 8 compliant code.
 	python3 setup.py flake8
 
-build: clean test style
+test: style
+# Local testing using the system python3 installation.
+	python3 -m pytest -s tests/test_*.py
+
+build: clean test
 # Builds the package into a source dist and a wheel binary,
 # then installs locally.
 	python3 setup.py sdist bdist_wheel

@@ -2,7 +2,9 @@ pylibgen
 ==========================
 |PyPI Version| |Travis Status| |License MIT|
 
-Python search and download interface for Library Genesis.
+Programmatic Python interface for Library Genesis.
+
+Looking for a CLI? I've got you covered with pylibgen-cli_!
 
 Installation
 ---------------------
@@ -12,21 +14,19 @@ pylibgen can be installed through pip!
 
     $ pip3 install pylibgen --user
 
-Alternatively, you can just put a copy of :code:`pylibgen.py` to wherever you need it:
-::
-
-    $ curl -L https://git.io/vyES7 -o pylibgen.py
 
 Usage
 ---------------------
-
-You're probably looking for pylibgen-cli_, which is a CLI wrapper around pylibgen's functionality, but here is a demonstration in the interactive interpreter:
 
 .. code-block:: pycon
 
     >>> from pylibgen import pylibgen
     >>> lg = pylibgen.Library()
     >>> ids = lg.search('automate the boring stuff', 'title')
+    >>> ids
+
+    ['1421206', '1421207', '1421208', '1351717', '1381538', '1381540', '1529338']
+    
     >>> data = lg.lookup(ids)
     >>> from pprint import pprint; pprint(data[0])
 
@@ -53,14 +53,14 @@ pylibgen is tested to work with python 3.3 - 3.6.
 Notes
 ---------------------
 
-Due to the nature of the service Library Genesis provides, its mirrors often get taken down. Feel free to submit any pull requests to update :code:`pylibgen.MIRRORS` as time goes on!
+Due to the nature of the service Library Genesis provides, its mirrors often get taken down. Feel free to submit any pull requests to update :code:`constants.MIRRORS` as time goes on!
 
 Support Library Genesis!
 --------------------------
 
-:code:`get_download_url` will, by default, parse the temporary download key necessary for a direct download URL from libgen's ads.php redirect.
+:code:`Library.get_download_url` will by default parse the temporary download key from libgen's ads.php redirect page. This is necessary for a valid direct download URL since libgen uses those temp keys to get more ad revenue.
 
-If you want to support Library Genesis, I recommend passing :code:`enable_ads=True` to :code:`get_download_url`, as this will return the plain download URL, which shows an ad first when visited.
+If you want to support Library Genesis, I recommend passing :code:`enable_ads=True` to :code:`Library.get_download_url`. This will return the plain download URL, which shows an ad first when visited.
 
 Disclaimer
 ---------------------
