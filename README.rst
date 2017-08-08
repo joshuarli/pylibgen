@@ -4,7 +4,6 @@ pylibgen
 
 Programmatic Python interface for Library Genesis.
 
-Looking for a CLI? I've got you covered with pylibgen-cli_!
 
 Installation
 ---------------------
@@ -67,8 +66,6 @@ Disclaimer
 
 Use this at your own risk. I am not responsible or liable for any piracy, copyright infringement, or other things committed by anyone using pylibgen. Blah blah lawyer stuff, etc.
 
-
-.. _pylibgen-cli: https://github.com/JoshuaRLi/pylibgen-cli
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/pylibgen.svg
    :target: https://pypi.python.org/pypi/pylibgen
