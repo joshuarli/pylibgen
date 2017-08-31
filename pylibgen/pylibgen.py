@@ -65,6 +65,8 @@ class Library(object):
             'ids': ','.join(ids),
             'fields': ','.join(fields),
         }).json()
+        if not res:
+            raise requests.HTTPError(400)
         return res if len(res) > 1 else res[0]
 
     def get_download_url(self, md5, enable_ads=False):
