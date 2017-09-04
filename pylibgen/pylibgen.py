@@ -66,6 +66,7 @@ class Library(object):
             'fields': ','.join(fields),
         }).json()
         if not res:
+            # https://github.com/JoshuaRLi/pylibgen/pull/3
             raise requests.HTTPError(400)
         return res if len(res) > 1 else res[0]
 
