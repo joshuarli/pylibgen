@@ -2,7 +2,9 @@ pylibgen
 ==========================
 |PyPI Version| |Travis Status| |License MIT|
 
-Programmatic Python interface for Library Genesis.
+Python interface to Library Genesis.
+
+Currently supports the :code:`libgen.io` mirror. Will need to write custom parsers for other mirrors in the future.
 
 
 Installation
