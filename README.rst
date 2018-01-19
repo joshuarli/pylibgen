@@ -10,10 +10,11 @@ Currently only supports the :code:`libgen.io` mirror. Will need to write custom 
 Installation
 ---------------------
 
-pylibgen can be installed through pip!
-::
+pylibgen can be installed via :code:`pip`:
 
-    $ python3 -m pip install pylibgen --user
+.. code-block:: sh
+
+    python3 -m pip install pylibgen --user
 
 
 Usage
@@ -45,6 +46,22 @@ Usage
     >>> lg.get_download_url(books[0]['md5'])
 
     'http://libgen.io/get.php?md5=054255117b2e86251415292ef48320fd&key=NQTP585IPY102LYG'
+
+
+Development Setup
+---------------------
+
+Firstly, you'll need :code:`pipenv` installed:
+
+.. code-block:: sh
+
+    python3 -m pip install pipenv --user
+
+To setup and enter the virtual environment for development:
+
+.. code-block:: sh
+
+    pipenv install --dev && pipenv shell
 
 
 Compatibility
