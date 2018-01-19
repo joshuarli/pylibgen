@@ -13,7 +13,7 @@ Installation
 pylibgen can be installed through pip!
 ::
 
-    $ pip3 install pylibgen --user
+    $ python3 -m pip install pylibgen --user
 
 
 Usage
@@ -50,7 +50,7 @@ Usage
 Compatibility
 ---------------------
 
-pylibgen is tested to work with python 3.3 - 3.6.
+pylibgen is tested to work with python 3.4 - 3.6.
 
 
 Support Library Genesis!
