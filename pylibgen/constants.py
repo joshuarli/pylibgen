@@ -1,20 +1,21 @@
-# Mirrors may change over time.
-MIRRORS = [
-    'libgen.io',
-]
+from collections import namedtuple
 
-DEFAULT_MIRROR = MIRRORS[0]
+__Mirror = namedtuple('Mirror', ('name', 'search', 'lookup'))
 
-ENDPOINTS = {
-    'search': 'http://{mirror}/search.php'
-              '?req={req}&res=100&column={column}',
-    'lookup': 'http://{mirror}/json.php'
-              '?ids={ids}&fields={fields}',
-    'download': 'http://{mirror}/get.php'
-              '?md5={md5}',
+MIRRORS = {
+    'libgen.io': __Mirror(
+        'libgen.io',
+        'http://libgen.io/search.php'
+        '?req={req}&res=100&column={column}',
+        'http://libgen.io/json.php'
+        '?ids={ids}&fields={fields}',
+    )
+    # gen.lib.rus.ec support is pending.
 }
 
-DEFAULT_FIELDS = [
+DEFAULT_MIRROR = 'libgen.io'
+
+DEFAULT_SEARCH_FIELDS = [
     'title',
     'author',
     'year',
