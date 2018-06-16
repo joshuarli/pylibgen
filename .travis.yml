@@ -1,16 +1,25 @@
+os: linux
+dist: trusty
+sudo: false
 language: python
-python:
-  - "3.4"
-  - "3.5"
-  - "3.6"
+cache: pip
 
 branches:
   only:
   - master
+  - v2
+
+before_install:
+  - "pip install pipenv --upgrade"
 
 install:
-  - "pip install pipenv --upgrade"
   - "pipenv install --dev"
 
 script:
-  - "pipenv run make test"
+  - "pipenv run make build"
+
+matrix:
+  include:
+    - python: 3.4
+    - python: 3.5
+    - python: 3.6
