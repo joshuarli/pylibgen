@@ -1,1 +1,1 @@
-from .pylibgen import Library, constants
+from .pylibgen import Library, Book, constants

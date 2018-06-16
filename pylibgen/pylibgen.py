@@ -41,38 +41,50 @@ class Library(object):
         return re.findall("<tr.*?><td>(\d+)", resp.text)
 
     def lookup(self, ids, fields=constants.DEFAULT_SEARCH_FIELDS):
-        '''Looks up metadata on Library Genesis books.
+        '''Looks up one or more books by book id.
 
-        Note:
-            To get book IDs, use search(). The default fields
-            suffice for most use cases, but there are a LOT more
-            like openlibraryid, publisher, etc. To get all fields,
-            use fields=['*'].
+        Notes:
+            To get book IDs, use search().
+            The default fields suffice for most use cases, but there are
+            a LOT more like openlibraryid, publisher, etc.
+            To get all fields, use fields=['*'].
 
         Args:
-            ids (list): Library Genesis book IDs.
+            ids (list): Library Genesis book IDs, str or int.
+                        Can also be a singular book id as a str or int.
             fields (list): Library Genesis book properties.
 
         Returns:
-            List of dicts each containing values for the specified
-            fields for a Library Genesis book ID.
-            A single dict if only one str or int id is passed in.
+            list of Book objects with properties for the specified
+            fields. If only one id was specified, then a Book object
+            will be returned and it won't be contained in a list.
         '''
-        # Allow for lookup of a single numeric string by auto casting
-        # to a list for convenience.
         if isinstance(ids, (str, int)):
-            ids = [str(ids)]
+            ids = [ids]
         resp = self.__req(
             self.mirror.lookup,
-            ids=','.join(ids),
+            ids=','.join(map(str, ids)),
             fields=','.join(fields),
         ).json()
         if not resp:
             # https://github.com/JoshuaRLi/pylibgen/pull/3
             raise requests.HTTPError(400)
-        return resp if len(resp) > 1 else resp[0]
+        if len(resp) == 1:
+            return Book(**resp[0])
+        else:
+            return [Book(**r) for r in resp]
 
     def __req(self, endpoint, **kwargs):
         r = requests.get(endpoint.format(**kwargs))
         r.raise_for_status()
         return r
+
+
+class Book(object):
+
+    def __init__(self, **fields):
+        # TODO filter based on constants.ALL_FIELDS
+        self.__dict__.update(fields)
+
+    def get_url(self):
+        raise NotImplementedError()
