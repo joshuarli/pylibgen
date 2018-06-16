@@ -3,7 +3,7 @@ from urllib.parse import quote_plus
 
 import requests
 
-from . import constants
+from . import constants, exceptions
 
 
 class Library(object):
@@ -61,18 +61,19 @@ class Library(object):
         '''
         if isinstance(ids, (str, int)):
             ids = [ids]
+        ids = list(map(str, ids))
         resp = self.__req(
             self.mirror.lookup,
-            ids=','.join(map(str, ids)),
+            ids=','.join(ids),
             fields=','.join(fields),
         ).json()
         if not resp:
             # https://github.com/JoshuaRLi/pylibgen/pull/3
             raise requests.HTTPError(400)
         if len(resp) == 1:
-            return Book(**resp[0])
+            return Book(**resp[0], id=ids[0])
         else:
-            return [Book(**r) for r in resp]
+            return [Book(**r, id=i) for r, i in zip(resp, ids)]
 
     def __req(self, endpoint, **kwargs):
         r = requests.get(endpoint.format(**kwargs))
@@ -82,9 +83,26 @@ class Library(object):
 
 class Book(object):
 
+    _MANDATORY_FIELDS = ('id', 'md5')
+
     def __init__(self, **fields):
         # TODO filter based on constants.ALL_FIELDS
         self.__dict__.update(fields)
+        for f in self._MANDATORY_FIELDS:
+            if f not in self.__dict__:
+                raise exceptions.BookException(
+                    "Book is missing mandatory field {}.".format(f)
+                )
 
-    def get_url(self):
-        raise NotImplementedError()
+    def get_url(self, filehost=constants.DEFAULT_FILEHOST):
+        url = self.__fmt_filehost_url(filehost, id=self.id, md5=self.md5)
+        return url
+
+    def __fmt_filehost_url(self, filehost, **kwargs):
+        try:
+            return constants.FILEHOST_URLS[filehost]
+        except KeyError:
+            raise exceptions.BookException((
+                'filehost "{}" not supported.\n'
+                'Please specify one of: {}'
+            ).format(filehost, ', '.join(constants.FILEHOST_URLS)))

@@ -10,7 +10,7 @@ MIRRORS = {
         'http://libgen.io/json.php'
         '?ids={ids}&fields={fields}',
     )
-    # gen.lib.rus.ec support is pending.
+    # TODO gen.lib.rus.ec support
 }
 
 DEFAULT_MIRROR = 'libgen.io'
@@ -26,3 +26,13 @@ DEFAULT_SEARCH_FIELDS = [
     'filesize',
     'md5',
 ]
+
+FILEHOST_URLS = {
+    'libgen.pw':    'https://libgen.pw/item/detail/id/{id}',
+    'libgen.io':    'http://libgen.io/ads.php?md5={md5}',
+    'library1.org': 'http://library1.org/_ads/{md5}',
+    'b-ok.org':     'http://b-ok.org/md5/{md5}',
+    'bookfi.net':   'http://bookfi.net/md5/{md5}',
+}
+
+DEFAULT_FILEHOST = 'libgen.pw'
