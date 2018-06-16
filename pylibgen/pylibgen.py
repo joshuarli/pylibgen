@@ -40,8 +40,8 @@ class Library(object):
         )
         return re.findall("<tr.*?><td>(\d+)", resp.text)
 
-    def lookup(self, ids, fields=constants.DEFAULT_SEARCH_FIELDS):
-        '''Looks up one or more books by book id.
+    def lookup(self, ids, fields=constants.DEFAULT_BOOK_FIELDS):
+        '''Looks up one or more books by book id and returns Book objects.
 
         Notes:
             To get book IDs, use search().
@@ -62,6 +62,7 @@ class Library(object):
         if isinstance(ids, (str, int)):
             ids = [ids]
         ids = list(map(str, ids))
+
         resp = self.__req(
             self.mirror.lookup,
             ids=','.join(ids),
@@ -70,10 +71,16 @@ class Library(object):
         if not resp:
             # https://github.com/JoshuaRLi/pylibgen/pull/3
             raise requests.HTTPError(400)
+
         if len(resp) == 1:
+            resp[0].pop('id', None)
             return Book(**resp[0], id=ids[0])
         else:
-            return [Book(**r, id=i) for r, i in zip(resp, ids)]
+            books = []
+            for r, i in zip(resp, ids):
+                r.pop('id', None)
+                books.append(Book(**r, id=i))
+            return books
 
     def __req(self, endpoint, **kwargs):
         r = requests.get(endpoint.format(**kwargs))
@@ -83,12 +90,14 @@ class Library(object):
 
 class Book(object):
 
-    _MANDATORY_FIELDS = ('id', 'md5')
+    __MANDATORY_FIELDS = ('id', 'md5')
 
     def __init__(self, **fields):
-        # TODO filter based on constants.ALL_FIELDS
-        self.__dict__.update(fields)
-        for f in self._MANDATORY_FIELDS:
+        self.__dict__.update({
+            k: v for k, v in fields.items()
+            if k in constants.ALL_BOOK_FIELDS
+        })
+        for f in self.__MANDATORY_FIELDS:
             if f not in self.__dict__:
                 raise exceptions.BookException(
                     "Book is missing mandatory field {}.".format(f)
