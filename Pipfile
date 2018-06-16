@@ -8,5 +8,6 @@ requests = ">=2.19,<2.20"
 
 [dev-packages]
 pytest = "==3.3,<3.4"
+pytest-xdist = "*"
 "flake8" = "==3.5,<3.6"
 wheel = "*"

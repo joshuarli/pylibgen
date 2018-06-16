@@ -14,4 +14,4 @@ style:
 	python3 -m flake8 --exclude tests/test_*.py,__init__.py,setup.py
 
 test: style
-	python3 -m pytest -s tests/test_*.py
+	python3 -m pytest -n auto -s tests/test_*.py

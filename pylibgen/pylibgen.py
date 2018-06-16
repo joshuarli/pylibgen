@@ -109,7 +109,7 @@ class Book(object):
 
     def __fmt_filehost_url(self, filehost, **kwargs):
         try:
-            return constants.FILEHOST_URLS[filehost]
+            return constants.FILEHOST_URLS[filehost].format(**kwargs)
         except KeyError:
             raise exceptions.BookException((
                 'filehost "{}" not supported.\n'
