@@ -24,6 +24,16 @@ matrix:
     - python: 3.5
     - python: 3.6
 
+deploy:
+  provider: releases
+  api_key:
+    secure: Yg7Q4rWn6k3zjv28bA+Cn9YRE+gV+VXEDAyGH4QTvjUi/4BBeOtJaTLkxbbQZp7iNvkoaDsvGLUbr9VoJiisq8jsBTngVL4ksx0T2urT2QqwBSU/rlvKy8XIIM96H67pdmtUpyb8ZfvQmWCWNFmz2XwRXUBS3weGmUTgh6WDTskpZCTLofbhvTeCHkq4kJ2gx2niu0HoVxSBuxnlFj0MOX5+QbkbFRN2dgj44y+daK4a9AVFlQawfzj2RmgLKegrwTkSn+Ew1XfpBZnbfTOheOBw1pElhcd8T+4VV6lZDMRsgp/wFv1BXqfkZCe69joxbyRfRsvJvPa5PrbYspVtrS4LWITdGfLjcEUoUO8pzi7W7BYOp8MWz6c/DBEflQLRSaYd7xtW3aOPF5qO/fT4bLgFhcq0EO8Kk9/+DoszK40MxI3PNFwFfGs7MdPrQIv9VMRm7jMrTKRvMqqt7u0Z993236kKvctdJvuYrgxbnrwtaPbtN64zi9QjY5GixIKAWLYgnMjfJD/z0wzC6he/1gxG+cpfuKP5/Ocati9U9ecglks9DZhHhJYEruA38bvciMBUIaRkJCto7HODEepXqYAly1z8gRixzpj2lMb9ioaW0Mr0QVo0o4tYD/kKzTnUnOw5SJPuBnqIlwoPAqmtJ3fwpeV6eGWTVxMLv05tBNI=
+  file_glob: true
+  file: dist/pylibgen-*.whl
+  skip_cleanup: true
+  on:
+    tags: true
+
 notifications:
   email:
     on_success: never
