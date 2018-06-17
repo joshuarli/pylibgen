@@ -22,7 +22,7 @@ class Library(object):
     def search(self, query, mode='title'):
         '''Searches Library Genesis.
 
-        Note:
+        Notes:
             For search type isbn, either ISBN 10 or 13 is accepted.
 
         Args:
@@ -32,8 +32,11 @@ class Library(object):
         Returns:
             List of LibraryGenesis book IDs that matched the query.
         '''
+        # TODO: pagination over default 100
+        # test w/ query 'many', 'title' for first 200 entries sorted ASC by id
+        # also pin some params in __req such as Download type: and view simple
         if mode not in constants.SEARCH_MODES:
-            # TODO add support for more fields
+            # TODO: add support for more fields
             raise exceptions.LibraryException((
                 'search mode "{}" not supported.\n'
                 'Please specify one of: {}'
@@ -50,7 +53,7 @@ class Library(object):
         '''Looks up one or more books by book id and returns Book objects.
 
         Notes:
-            To get book IDs, use search().
+            To get book IDs, use Library.search().
             The default fields suffice for most use cases, but there are
             a LOT more like openlibraryid, publisher, etc.
             To get all fields, use fields=['*'].

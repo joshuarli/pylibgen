@@ -5,11 +5,13 @@ pylibgen
 
 Python interface to Library Genesis.
 
+Currently, only the LibGen/Sci-Tech database is supported.
+
 
 Installation
 ------------
 
-pylibgen is tested to support Python 3.4 - 3.6 can be installed via ``pip``. For example:
+pylibgen is well-tested on Python 3.4 - 3.6, and can be installed via ``pip``. For example:
 
 .. code-block:: sh
 
@@ -29,7 +31,10 @@ Usage
 Support Library Genesis!
 ------------------------
 
-``Book.get_url()`` will, by default, attempt to bypass any intermediate advertisement pages. If you want to support Library Genesis, I recommend passing ``enable_ads=True`` to ``Library.get_download_url``, which will disable this behavior and return a url that must be visited for a download link.
+``Book.get_url(filehost='...')`` will return the standard filehost gateway url.
+
+There is no functionality to bypass any intermediate advertisement pages, and
+this behavior is intended because Library Genesis is a service worth supporting.
 
 
 Development Setup
@@ -45,7 +50,9 @@ You'll need ``pipenv`` installed. To setup and enter the virtual environment for
 Disclaimer
 ----------
 
-Please use ``pylibgen`` with responsibility and at your own risk. I am not responsible or liable for any piracy, copyright infringement, or other offences committed by anyone using this software. Consider supporting your favorite authors by purchasing their works.
+Please use ``pylibgen`` with responsibility and at your own risk.
+I am not responsible or liable for any piracy, copyright infringement, or other offences committed by anyone using this software.
+Consider supporting your favorite authors by purchasing their works!
 
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/pylibgen.svg
