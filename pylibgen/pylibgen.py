@@ -80,12 +80,12 @@ class Library(object):
 
         if len(resp) == 1:
             resp[0].pop('id', None)
-            return Book(**resp[0], id=ids[0])
+            return Book(id=ids[0], **resp[0])
         else:
             books = []
             for r, i in zip(resp, ids):
                 r.pop('id', None)
-                books.append(Book(**r, id=i))
+                books.append(Book(id=i, **r))
             return books
 
     def __req(self, endpoint, **kwargs):
