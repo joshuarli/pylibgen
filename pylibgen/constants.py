@@ -15,12 +15,14 @@ MIRRORS = {
 
 DEFAULT_MIRROR = 'libgen.io'
 
+SEARCH_MODES = ('title', 'author', 'isbn')
+
 FILEHOST_URLS = {
-    'libgen.pw':    'https://libgen.pw/item/detail/id/{id}',
-    'libgen.io':    'http://libgen.io/ads.php?md5={md5}',
+    'libgen.pw': 'https://libgen.pw/item/detail/id/{id}',
+    'libgen.io': 'http://libgen.io/ads.php?md5={md5}',
     'library1.org': 'http://library1.org/_ads/{md5}',
-    'b-ok.org':     'http://b-ok.org/md5/{md5}',
-    'bookfi.net':   'http://bookfi.net/md5/{md5}',
+    'b-ok.org': 'http://b-ok.org/md5/{md5}',
+    'bookfi.net': 'http://bookfi.net/md5/{md5}',
 }
 
 DEFAULT_FILEHOST = 'libgen.pw'

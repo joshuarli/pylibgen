@@ -32,7 +32,13 @@ class Library(object):
         Returns:
             List of LibraryGenesis book IDs that matched the query.
         '''
-        assert(mode in ('title', 'author', 'isbn'))
+        if mode not in constants.SEARCH_MODES:
+            # TODO add support for more fields
+            raise exceptions.LibraryException((
+                'search mode "{}" not supported.\n'
+                'Please specify one of: {}'
+            ).format(mode, ', '.join(constants.SEARCH_MODES)))
+
         resp = self.__req(
             self.mirror.search,
             req=quote_plus(query),
