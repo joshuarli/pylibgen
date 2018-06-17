@@ -40,6 +40,7 @@ setup(
             'pytest',
             'flake8',
             'wheel',
+            'twine',
         ]
     },
     classifiers=[
