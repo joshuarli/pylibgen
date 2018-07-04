@@ -19,7 +19,7 @@ class Library(object):
     def __repr__(self):
         return '<Library ({})>'.format(self.mirror.name)
 
-    def search(self, query, mode='title'):
+    def search(self, query, mode='title', page=1, per_page=25):
         '''Searches Library Genesis.
 
         Notes:
@@ -27,21 +27,31 @@ class Library(object):
 
         Args:
             query (str): Search query.
-            type (str): Query type.
+            mode (str): Search query mode.
                 Can be one of constants.SEARCH_MODES.
+            page (int): Result page number.
+            per_page (int): Results per page.
 
         Returns:
             List of Library Genesis book IDs that matched the query.
         '''
-        # TODO: pagination over default 100
-        # test w/ query 'many', 'title' for first 200 entries sorted ASC by id
-        # http://libgen.io/search.php?&res=50&req=many&phrase=1&view=simple&column=title&sort=def&sortmode=ASC&page=3
-        # also pin some params in __req such as Download type: and view simple
+        # TODO: pin some params in __req such as Download type: and view simple
         if mode not in constants.SEARCH_MODES:
             raise exceptions.LibraryException((
                 'Search mode "{}" not supported.\n'
                 'Please specify one of: {}'
             ).format(mode, ', '.join(constants.SEARCH_MODES)))
+
+        if page <= 0:
+            raise exceptions.LibraryException(
+                'page number must be > 0.'
+            )
+
+        if per_page not in constants.SEARCH_RESULTS_PER_PAGE:
+            raise exceptions.LibraryException((
+                '{} results per page is not supported, sadly.\n'
+                'Please specify one of: {}'
+            ).format(per_page, ', '.join(map(str, constants.SEARCH_RESULTS_PER_PAGE))))
 
         resp = self.__req(
             self.mirror.search,

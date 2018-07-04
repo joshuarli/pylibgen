@@ -33,6 +33,9 @@ strings to filter down the search.
     'tags',
 '''
 
+# strangely, libgen only allows these amounts.
+SEARCH_RESULTS_PER_PAGE = (25, 50, 100)
+
 FILEHOST_URLS = {
     'libgen.pw': 'https://libgen.pw/item/detail/id/{id}',
     'libgen.io': 'http://libgen.io/ads.php?md5={md5}',
