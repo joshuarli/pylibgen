@@ -47,4 +47,4 @@ def test_mirror(mirror, test_book):
 def test_all_book_fields(mirror):
     l = pylibgen.Library(mirror)
     book = l.lookup('112887', fields=['*'])
-    assert set(book.__dict__.keys()) == set(pylibgen.constants.ALL_BOOK_FIELDS)
+    assert set(book.__dict__.keys()) == pylibgen.constants.ALL_BOOK_FIELDS

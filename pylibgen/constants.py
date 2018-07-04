@@ -39,7 +39,7 @@ DEFAULT_BOOK_FIELDS = (
     'md5',
 )
 
-ALL_BOOK_FIELDS = (
+ALL_BOOK_FIELDS = {
     'aich',
     'asin',
     'author',
@@ -96,4 +96,4 @@ ALL_BOOK_FIELDS = (
     'visible',
     'volumeinfo',
     'year',
-)
+}
