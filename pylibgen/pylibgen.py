@@ -7,7 +7,7 @@ from . import constants, exceptions
 
 
 class Library(object):
-    '''Library Genesis interface wrapper.'''
+    '''Library Genesis search interface wrapper.'''
 
     def __init__(self, mirror=constants.DEFAULT_MIRROR):
         if mirror not in constants.MIRRORS:
@@ -27,18 +27,19 @@ class Library(object):
 
         Args:
             query (str): Search query.
-            type (str): Query type. Can be title, author, isbn.
+            type (str): Query type.
+                Can be one of constants.SEARCH_MODES.
 
         Returns:
-            List of LibraryGenesis book IDs that matched the query.
+            List of Library Genesis book IDs that matched the query.
         '''
         # TODO: pagination over default 100
         # test w/ query 'many', 'title' for first 200 entries sorted ASC by id
+        # http://libgen.io/search.php?&res=50&req=many&phrase=1&view=simple&column=title&sort=def&sortmode=ASC&page=3
         # also pin some params in __req such as Download type: and view simple
         if mode not in constants.SEARCH_MODES:
-            # TODO: add support for more fields
             raise exceptions.LibraryException((
-                'search mode "{}" not supported.\n'
+                'Search mode "{}" not supported.\n'
                 'Please specify one of: {}'
             ).format(mode, ', '.join(constants.SEARCH_MODES)))
 
@@ -98,10 +99,12 @@ class Library(object):
 
 
 class Book(object):
+    '''Models a Library Genesis book.'''
 
     __MANDATORY_FIELDS = ('id', 'md5')
 
     def __init__(self, **fields):
+        # properties are dynamically set based on valid fields
         self.__dict__.update({
             k: v for k, v in fields.items()
             if k in constants.ALL_BOOK_FIELDS

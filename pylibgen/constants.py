@@ -15,7 +15,23 @@ MIRRORS = {
 
 DEFAULT_MIRROR = 'libgen.io'
 
-SEARCH_MODES = ('title', 'author', 'isbn')
+SEARCH_MODES = (
+    'title',
+    'author',
+    'isbn',
+)
+'''
+The following modes are possible, but way too general and not recommended.
+AFAIK, there isn't a way to combine multiple search modes and respective
+strings to filter down the search.
+
+    'year',
+    'publisher',
+    'series',
+    'language',
+    'extension',
+    'tags',
+'''
 
 FILEHOST_URLS = {
     'libgen.pw': 'https://libgen.pw/item/detail/id/{id}',
