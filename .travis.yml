@@ -7,7 +7,7 @@ cache: pip
 branches:
   only:
   - master
-  - v2
+  - v2-prerelease
 
 before_install:
   - "pip install pipenv --upgrade"
