@@ -32,6 +32,7 @@ def test_mirror(mirror, test_book):
     search_params, md5_of_ids = test_book
     l = pylibgen.Library(mirror)
     ids = l.search(*search_params)
+
     assert isinstance(ids, list)
     assert set(ids) == set(md5_of_ids.keys())
 
@@ -40,3 +41,10 @@ def test_mirror(mirror, test_book):
     assert all((isinstance(b, pylibgen.Book) for b in books))
     for book in books:
         assert md5_of_ids[book.id] == book.md5.lower()
+
+
+@pytest.mark.parametrize('mirror', pylibgen.constants.MIRRORS)
+def test_all_book_fields(mirror):
+    l = pylibgen.Library(mirror)
+    book = l.lookup('112887', fields=['*'])
+    assert set(book.__dict__.keys()) == set(pylibgen.constants.ALL_BOOK_FIELDS)

@@ -59,7 +59,6 @@ ALL_BOOK_FIELDS = (
     'extension',
     'filesize',
     'generic',
-    'get_url',
     'googlebookid',
     'id',
     'identifier',
