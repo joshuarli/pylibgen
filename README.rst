@@ -11,7 +11,7 @@ Currently, only the LibGen/Sci-Tech database is supported.
 Installation
 ------------
 
-pylibgen is well-tested on Python 3.4 - 3.6, and can be installed via ``pip``. For example:
+pylibgen is well-tested on Python 3.5 - 3.6, and can be installed via ``pip``. For example:
 
 .. code-block:: sh
 
