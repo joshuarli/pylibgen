@@ -7,7 +7,7 @@ build: clean test
 	python3 setup.py sdist bdist_wheel --universal > /dev/null
 
 publish: build
-	python3 -m twine upload dist/*
+	python3 -m twine upload --sign dist/*
 
 clean:
 	rm -rf __pycache__/ build/ dist/ *.egg-info/ .cache/
