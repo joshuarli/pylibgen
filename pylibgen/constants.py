@@ -6,14 +6,34 @@ MIRRORS = {
     'libgen.io': __Mirror(
         'libgen.io',
         'http://libgen.io/search.php'
-        '?req={req}&res=100&column={column}',
+        '?req={req}'
+        '&page={page}'
+        '&res={per_page}'
+        '&column={mode}'
+        '&lg_topic={lg_topic}'
+        '&view={view}'
+        '&open={open}'
+        '&phrase={phrase}',
         'http://libgen.io/json.php'
-        '?ids={ids}&fields={fields}',
+        '?ids={ids}'
+        '&fields={fields}',
     )
     # TODO gen.lib.rus.ec support
 }
 
 DEFAULT_MIRROR = 'libgen.io'
+
+# these query parameters for mirror/search.php are pinned.
+SEARCH_BASE_PARAMS = {
+    # database to search in. libgen is also known as Sci-Tech.
+    'lg_topic': 'libgen',
+    # View results: simple
+    'view': 'simple',
+    # Download type: Resumed dl with original filename
+    'open': 0,
+    # Search with mask (e.g. word*), 0 actually enables this
+    'phrase': 0,
+}
 
 SEARCH_MODES = (
     'title',

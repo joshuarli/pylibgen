@@ -35,7 +35,6 @@ class Library(object):
         Returns:
             List of Library Genesis book IDs that matched the query.
         '''
-        # TODO: pin some params in __req such as Download type: and view simple
         if mode not in constants.SEARCH_MODES:
             raise exceptions.LibraryException((
                 'Search mode "{}" not supported.\n'
@@ -56,7 +55,9 @@ class Library(object):
         resp = self.__req(
             self.mirror.search,
             req=quote_plus(query),
-            column=mode,
+            mode=mode,
+            page=page,
+            per_page=per_page,
         )
         return re.findall("<tr.*?><td>(\d+)", resp.text)
 
@@ -103,7 +104,10 @@ class Library(object):
             return books
 
     def __req(self, endpoint, **kwargs):
-        r = requests.get(endpoint.format(**kwargs))
+        r = requests.get(endpoint.format(
+            **constants.SEARCH_BASE_PARAMS,
+            **kwargs
+        ))
         r.raise_for_status()
         return r
 
