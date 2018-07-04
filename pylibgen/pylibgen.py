@@ -1,135 +1,143 @@
-import os
 import re
-import requests
-import webbrowser
 from urllib.parse import quote_plus
-from . import constants
+
+import requests
+
+from . import constants, exceptions
 
 
 class Library(object):
-    """Library Genesis interface wrapper."""
+    '''Library Genesis search interface wrapper.'''
 
     def __init__(self, mirror=constants.DEFAULT_MIRROR):
-        assert(mirror in constants.MIRRORS)
-        self.mirror = mirror
+        if mirror not in constants.MIRRORS:
+            raise NotImplementedError(
+                'Search mirror `{}` not supported.'.format(mirror)
+            )
+        self.mirror = constants.MIRRORS[mirror]
 
     def __repr__(self):
-        return '<Library using mirror {}>'.format(self.mirror)
+        return '<Library ({})>'.format(self.mirror.name)
 
-    def __str__(self):
-        return self.__repr__
+    def search(self, query, mode='title', page=1, per_page=25):
+        '''Searches Library Genesis.
 
-    def search(self, query, type='title'):
-        """Searches Library Genesis.
-
-        Note:
+        Notes:
             For search type isbn, either ISBN 10 or 13 is accepted.
 
         Args:
             query (str): Search query.
-            type (str): Query type. Can be title, author, isbn.
+            mode (str): Search query mode.
+                Can be one of constants.SEARCH_MODES.
+            page (int): Result page number.
+            per_page (int): Results per page.
 
         Returns:
-            List of LibraryGenesis book IDs that matched the query.
-        """
-        assert(type in {'title', 'author', 'isbn'})
-        r = self.__req('search', {
-            'req': quote_plus(query),
-            'column': type,
-        })
-        return re.findall("<tr.*?><td>(\d+)", r.text)
+            List of Library Genesis book IDs that matched the query.
+        '''
+        if mode not in constants.SEARCH_MODES:
+            raise exceptions.LibraryException((
+                'Search mode "{}" not supported.\n'
+                'Please specify one of: {}'
+            ).format(mode, ', '.join(constants.SEARCH_MODES)))
 
-    def lookup(self, ids, fields=constants.DEFAULT_FIELDS):
-        """Looks up metadata on Library Genesis books.
+        if page <= 0:
+            raise exceptions.LibraryException(
+                'page number must be > 0.'
+            )
 
-        Note:
-            To get book IDs, use search(). The default fields
-            suffice for most use cases, but there are a LOT more
-            like openlibraryid, publisher, etc. To get all fields,
-            use fields=['*'].
+        if per_page not in constants.SEARCH_RESULTS_PER_PAGE:
+            raise exceptions.LibraryException((
+                '{} results per page is not supported, sadly.\n'
+                'Please specify one of: {}'
+            ).format(per_page, ', '.join(map(str, constants.SEARCH_RESULTS_PER_PAGE))))
+
+        resp = self.__req(
+            self.mirror.search,
+            req=quote_plus(query),
+            mode=mode,
+            page=page,
+            per_page=per_page,
+        )
+        return re.findall("<tr.*?><td>(\d+)", resp.text)
+
+    def lookup(self, ids, fields=constants.DEFAULT_BOOK_FIELDS):
+        '''Looks up one or more books by book id and returns Book objects.
+
+        Notes:
+            To get book IDs, use Library.search().
+            The default fields suffice for most use cases, but there are
+            a LOT more like openlibraryid, publisher, etc.
+            To get all fields, use fields=['*'].
 
         Args:
-            ids (list): Library Genesis book IDs.
+            ids (list): Library Genesis book IDs, str or int.
+                        Can also be a singular book id as a str or int.
             fields (list): Library Genesis book properties.
 
         Returns:
-            List of dicts each containing values for the specified
-            fields for a Library Genesis book ID.
-            A single dict if only one str or int id is passed in.
-        """
-        # Allow for lookup of a single numeric string by auto casting
-        # to a list for convenience.
+            list of Book objects with properties for the specified
+            fields. If only one id was specified, then a Book object
+            will be returned and it won't be contained in a list.
+        '''
         if isinstance(ids, (str, int)):
-            ids = [str(ids)]
-        res = self.__req('lookup', {
-            'ids': ','.join(ids),
-            'fields': ','.join(fields),
-        }).json()
-        if not res:
+            ids = [ids]
+        ids = list(map(str, ids))
+
+        resp = self.__req(
+            self.mirror.lookup,
+            ids=','.join(ids),
+            fields=','.join(fields),
+        ).json()
+        if not resp:
             # https://github.com/JoshuaRLi/pylibgen/pull/3
             raise requests.HTTPError(400)
-        return res if len(res) > 1 else res[0]
 
-    def get_download_url(self, md5, enable_ads=False):
-        """Gets a direct download URL to a Library Genesis book.
+        if len(resp) == 1:
+            resp[0].pop('id', None)
+            return Book(id=ids[0], **resp[0])
+        else:
+            books = []
+            for r, i in zip(resp, ids):
+                r.pop('id', None)
+                books.append(Book(id=i, **r))
+            return books
 
-        Note:
-            This is actually specific only to the libgen.io mirror!
-            Will need to be rewritten if things change.
-            Use lookup() to obtain the MD5s for Library Genesis books.
-            To support Library Genesis, pass True to enable_ads.
-            See the package README for more detail.
-
-        Args:
-            md5 (str): Library Genesis unique book identifier checksum.
-            enable_ads (bool): Toggle ad bypass via direct download key
-                scraping.
-
-        Returns:
-            A direct download URL.
-        """
-        url = self.__req('download', {'md5': md5}, urlonly=True)
-        if enable_ads:
-            return url
-        r = self.__req('download', {'md5': md5})
-        key = re.findall("&key=(.*?)'", r.text)[0]
-        return '{}&key={}'.format(url, key)
-
-    def download(self, md5, dest='.', use_browser=False):
-        """Downloads a Library Genesis book.
-
-        Note:
-            Libgen seems to delay programmatically sent dl requests, even
-            if the UA string is spoofed and the URL contains a good key,
-            so I recommend just using get_download_url. Alternatively, you
-            can set use_browser=True, which will just open up the download
-            URL in a new browser tab.
-
-            Note that if you spam download requests, libgen will temporarily
-            503. Again, I recommend using get_download_url and downloading
-            from the browser.
-
-        Args:
-            md5 (str): Library Genesis unique book identifier checksum.
-            dest (str): Path to download directory.
-            use_browser (bool): Use browser to download instead.
-        """
-        auth_url = self.get_download_url(md5, enable_ads=False)
-        if use_browser:
-            webbrowser.open_new_tab(auth_url)
-            return
-        r = requests.get(auth_url)
-        r.raise_for_status()
-        with open(os.path.join(dest, md5), 'wb') as f:
-            for chunk in r.iter_content(1024):
-                f.write(chunk)
-
-    def __req(self, endpoint, getargs, urlonly=False):
-        url = constants.ENDPOINTS[endpoint].format(
-            mirror=self.mirror, **getargs
-        )
-        if urlonly:
-            return url
-        r = requests.get(url)
+    def __req(self, endpoint, **kwargs):
+        r = requests.get(endpoint.format(
+            **constants.SEARCH_BASE_PARAMS,
+            **kwargs
+        ))
         r.raise_for_status()
         return r
+
+
+class Book(object):
+    '''Models a Library Genesis book.'''
+
+    __MANDATORY_FIELDS = ('id', 'md5')
+
+    def __init__(self, **fields):
+        # properties are dynamically set based on valid fields
+        self.__dict__.update({
+            k: v for k, v in fields.items()
+            if k in constants.ALL_BOOK_FIELDS
+        })
+        for f in self.__MANDATORY_FIELDS:
+            if f not in self.__dict__:
+                raise exceptions.BookException(
+                    "Book is missing mandatory field {}.".format(f)
+                )
+
+    def get_url(self, filehost=constants.DEFAULT_FILEHOST):
+        url = self.__fmt_filehost_url(filehost, id=self.id, md5=self.md5)
+        return url
+
+    def __fmt_filehost_url(self, filehost, **kwargs):
+        try:
+            return constants.FILEHOST_URLS[filehost].format(**kwargs)
+        except KeyError:
+            raise exceptions.BookException((
+                'filehost "{}" not supported.\n'
+                'Please specify one of: {}'
+            ).format(filehost, ', '.join(constants.FILEHOST_URLS)))
