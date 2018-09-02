@@ -34,16 +34,8 @@ setup(
     ],
     packages=find_packages(exclude=('tests',)),
     install_requires=[
-        'requests',
+        'requests>=2.19,<2.20',
     ],
-    extras_require={
-        'dev': [
-            'pytest',
-            'flake8',
-            'wheel',
-            'twine',
-        ]
-    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

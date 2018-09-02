@@ -1,14 +1,14 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b3df35462243ee6f1a02e5244efeb2596700f90b531f04dbf5228d1d9f3267fe"
+            "sha256": "9c69d60bb5657a3707e98d54ba6a0300e8d2c287868dc1b524b7c3778a065732"
         },
         "pipfile-spec": 6,
         "requires": {},
         "sources": [
             {
                 "name": "pypi",
-                "url": "https://pypi.python.org/simple",
+                "url": "https://pypi.org/simple",
                 "verify_ssl": true
             }
         ]
@@ -28,6 +28,10 @@
             ],
             "version": "==3.0.4"
         },
+        "e1839a8": {
+            "editable": true,
+            "path": "."
+        },
         "idna": {
             "hashes": [
                 "sha256:156a6814fb5ac1fc6850fb002e0852d56c0c8d2531923a51032d1b70760e186e",
@@ -40,7 +44,6 @@
                 "sha256:63b52e3c866428a224f97cab011de738c36aec0185aa91cfacd418b5d58911d1",
                 "sha256:ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"
             ],
-            "index": "pypi",
             "version": "==2.19.1"
         },
         "urllib3": {
@@ -133,18 +136,17 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:6db1c070aa412c30647b6aeb13c55670f900cf00fbafa003cdde560c3f4a8d76",
-                "sha256:72186b294cc88322a4427225fdb9240c95e3f01cc53c1ea4f4f79ffe39ff1955"
+                "sha256:53548280ede7818f4dc2ad96608b9f08ae2cc2ca3874f2ceb6f97e3583f25bc4",
+                "sha256:b84878865558194630c6147f44bdaef27222a9f153bbd4a08908b16bf285e0b1"
             ],
             "index": "pypi",
-            "version": "==3.3.0"
+            "version": "==3.3.2"
         },
         "requests": {
             "hashes": [
                 "sha256:63b52e3c866428a224f97cab011de738c36aec0185aa91cfacd418b5d58911d1",
                 "sha256:ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"
             ],
-            "index": "pypi",
             "version": "==2.19.1"
         },
         "requests-toolbelt": {

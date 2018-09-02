@@ -1,13 +1,13 @@
 [[source]]
-url = "https://pypi.python.org/simple"
+url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = ">=2.19,<2.20"
+"e1839a8" = {path = ".", editable = true}
 
 [dev-packages]
-pytest = "==3.3,<3.4"
-"flake8" = "==3.5,<3.6"
-wheel = "*"
-twine = "*"
+pytest = '>=3.3,<3.4'
+flake8 = '>=3.5,<3.6'
+wheel = '*'
+twine = '*'
