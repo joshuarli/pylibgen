@@ -1,14 +1,16 @@
 language: python
 python:
-  - "3.3"
   - "3.4"
   - "3.5"
   - "3.6"
+
 branches:
   only:
   - master
 
 install:
-  - "pip install flake8"
-  - "python setup.py install"
-script: "make test"
+  - "pip install pipenv --upgrade"
+  - "pipenv install --dev"
+
+script:
+  - "pipenv run make test"

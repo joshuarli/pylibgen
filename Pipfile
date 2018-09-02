@@ -13,3 +13,5 @@ requests = "*"
 [dev-packages]
 
 pytest = "*"
+"flake8" = "*"
+wheel = "*"
