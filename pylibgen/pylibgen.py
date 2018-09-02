@@ -55,12 +55,17 @@ class Library(object):
         Returns:
             List of dicts each containing values for the specified
             fields for a Library Genesis book ID.
+            A single dict if only one str or int id is passed in.
         """
-        r = self.__req('lookup', {
+        # Allow for lookup of a single numeric string by auto casting
+        # to a list for convenience.
+        if isinstance(ids, (str, int)):
+            ids = [str(ids)]
+        res = self.__req('lookup', {
             'ids': ','.join(ids),
             'fields': ','.join(fields),
-        })
-        return r.json()
+        }).json()
+        return res if len(res) > 1 else res[0]
 
     def get_download_url(self, md5, enable_ads=False):
         """Gets a direct download URL to a Library Genesis book.

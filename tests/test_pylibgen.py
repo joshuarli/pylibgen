@@ -6,12 +6,15 @@ def test_api_endpoints():
     for mirror in constants.MIRRORS:
         lg = Library(mirror)
         ids = lg.search('automate the boring stuff', 'title')
+        assert isinstance(ids, list)
         assert set(ids) == set([
             '1421206', '1421207', '1421208', '1351717',
             '1381538', '1381540', '1529338',
         ])
 
         books = lg.lookup(ids)
+        assert isinstance(books, list)
+        assert isinstance(books[0], dict)
         assert {book['md5'] for book in books} == {
             'd826b3e593b12422784f50d59c97a966',
             'b34564156c3778261ed03167b09f6694',
@@ -21,5 +24,9 @@ def test_api_endpoints():
             '054255117b2e86251415292ef48320fd',
             '1af2c71c1342e850e1e47013b06f9eb9',
         }
+
+        book = lg.lookup(1421206)
+        assert isinstance(book, dict)
+        assert book['md5'] == '1af2c71c1342e850e1e47013b06f9eb9'
 
         lg.get_download_url(books[0]['md5'])
