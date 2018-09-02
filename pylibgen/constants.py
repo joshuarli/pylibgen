@@ -1,7 +1,6 @@
-# Mirrors may change over time as they get taken down regularly.
+# Mirrors may change over time.
 MIRRORS = [
     'libgen.io',
-    'gen.lib.rus.ec',
 ]
 
 DEFAULT_MIRROR = MIRRORS[0]
