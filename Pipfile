@@ -9,5 +9,9 @@ name = "pypi"
 [dev-packages]
 pytest = '>=3.3,<3.4'
 flake8 = '>=3.5,<3.6'
+black = '*'
 wheel = '*'
 twine = '*'
+
+[pipenv]
+allow_prereleases = true
