@@ -20,8 +20,8 @@ Usage
 
 .. code-block:: pycon
 
-    >>> from pylibgen import pylibgen
-    >>> lg = pylibgen.Library()
+    >>> from pylibgen import Library
+    >>> lg = Library()
     >>> ids = lg.search('automate the boring stuff', 'title')
     >>> ids
 
