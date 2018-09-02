@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-VERSION = '1.3.0'
+VERSION = '1.3.1'
 REPO = 'https://github.com/JoshuaRLi/pylibgen'
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -16,7 +16,7 @@ setup(
     long_description=LONG_DESC,
     license='MIT',
     url=REPO,
-    download_url='{}/archive/{}.tar.gz'.format(REPO, VERSION),
+    download_url='{}/archive/v{}.tar.gz'.format(REPO, VERSION),
     author='Joshua Li',
     author_email='joshua.r.li.98@gmail.com',
     maintainer='Joshua Li',
