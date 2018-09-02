@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 AUTHOR_GITHUB = 'JoshuaRLi'
 SETUP_BASE = {
     'name': 'pylibgen',
-    'description': 'Python search and download interface for Library Genesis.',
+    'description': 'Programmatic Python interface for Library Genesis.',
     'license': 'MIT',
     'author': 'Joshua Li',
     'author_email': 'joshua.r.li.98@gmail.com',
