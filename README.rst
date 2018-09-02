@@ -4,7 +4,7 @@ pylibgen
 
 Python interface to Library Genesis.
 
-Currently supports the :code:`libgen.io` mirror. Will need to write custom parsers for other mirrors in the future.
+Currently only supports the :code:`libgen.io` mirror. Will need to write custom parsers for other mirrors in the future.
 
 
 Installation
@@ -27,7 +27,7 @@ Usage
     >>> ids
 
     ['1421206', '1421207', '1421208', '1351717', '1381538', '1381540', '1529338']
-    
+
     >>> books = lg.lookup(ids)
     >>> from pprint import pprint; pprint(books[0])
 
@@ -46,15 +46,12 @@ Usage
 
     'http://libgen.io/get.php?md5=054255117b2e86251415292ef48320fd&key=NQTP585IPY102LYG'
 
+
 Compatibility
 ---------------------
 
 pylibgen is tested to work with python 3.3 - 3.6.
 
-Notes
----------------------
-
-Due to the nature of the service Library Genesis provides, its mirrors often get taken down. Feel free to submit any pull requests to update :code:`constants.MIRRORS` as time goes on!
 
 Support Library Genesis!
 --------------------------
@@ -62,6 +59,7 @@ Support Library Genesis!
 :code:`Library.get_download_url` will by default parse the temporary download key from libgen's ads.php redirect page. This is necessary for a valid direct download URL since libgen uses those temp keys to get more ad revenue.
 
 If you want to support Library Genesis, I recommend passing :code:`enable_ads=True` to :code:`Library.get_download_url`. This will return the plain download URL, which shows an ad first when visited.
+
 
 Disclaimer
 ---------------------
