@@ -1,14 +1,27 @@
 import os
 from setuptools import setup, find_packages
 
-AUTHOR_GITHUB = 'JoshuaRLi'
-SETUP_BASE = {
-    'name': 'pylibgen',
-    'description': 'Programmatic Python interface for Library Genesis.',
-    'license': 'MIT',
-    'author': 'Joshua Li',
-    'author_email': 'joshua.r.li.98@gmail.com',
-    'keywords': [
+VERSION = '1.3.0'
+REPO = 'https://github.com/JoshuaRLi/pylibgen'
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    LONG_DESC = f.read().strip()
+
+setup(
+    name='pylibgen',
+    version=VERSION,
+    description='Python interface to Library Genesis.',
+    long_description=LONG_DESC,
+    license='MIT',
+    url=REPO,
+    download_url='{}/archive/{}.tar.gz'.format(REPO, VERSION),
+    author='Joshua Li',
+    author_email='joshua.r.li.98@gmail.com',
+    maintainer='Joshua Li',
+    maintainer_email='joshua.r.li.98@gmail.com',
+    keywords=[
         'libgen',
         'library',
         'genesis',
@@ -18,16 +31,16 @@ SETUP_BASE = {
         'ebooks',
         'textbooks',
     ],
-    'packages': find_packages(exclude=['tests']),
-    # 'entry_points': {
-    #     'console_scripts': [
-    #         'executable_name=package:module:main',
-    #     ],
-    # },
-    'install_requires': [
+    packages=find_packages(exclude=('tests',)),
+    install_requires=[
         'requests',
     ],
-    'classifiers': [
+    extras_require={
+        'dev': [
+            'pytest',
+        ]
+    },
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development',
@@ -40,22 +53,4 @@ SETUP_BASE = {
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-}
-
-here = os.path.abspath(os.path.dirname(__file__))
-
-with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
-    SETUP_BASE['long_description'] = f.read().strip()
-
-with open(os.path.join(here, 'VERSION'), 'r') as f:
-    SETUP_BASE['version'] = f.read().strip()
-
-setup(
-    url='https://github.com/{0}/{name}'.format(
-        AUTHOR_GITHUB, **SETUP_BASE
-    ),
-    download_url='https://github.com/{0}/{name}/tarball/v{version}'.format(
-        AUTHOR_GITHUB, **SETUP_BASE
-    ),
-    **SETUP_BASE
 )
