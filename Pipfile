@@ -10,6 +10,7 @@ name = "pypi"
 pytest = '>=3.3,<3.4'
 flake8 = '>=3.5,<3.6'
 black = '*'
+pre-commit = '*'
 wheel = '*'
 twine = '*'
 

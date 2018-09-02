@@ -11,7 +11,7 @@ You may also be interested in `libgen-cli <https://github.com/JoshuaRLi/libgen-c
 Installation
 ------------
 
-pylibgen is well-tested on Python 3.5 - 3.7, and can be installed via ``pip``. For example:
+pylibgen is well-tested on Python 3.6 - 3.7, and can be installed via ``pip``. For example:
 
 .. code-block:: sh
 
@@ -52,11 +52,13 @@ this behavior is intended because Library Genesis is a service worth supporting.
 Development Setup
 -----------------
 
-You'll need ``pipenv`` installed. To setup and enter the virtual environment for development:
+You'll need Python 3.6+ with ``pipenv`` installed. To setup and enter the virtual environment for development:
 
 .. code-block:: sh
 
-    pipenv install --dev && pipenv shell
+    pipenv install --dev
+    pipenv shell
+    pre-commit install
 
 
 Disclaimer

@@ -1,27 +1,28 @@
-os: linux
-dist: xenial
-sudo: true
 language: python
+dist: trusty
+sudo: false
 cache: pip
 
 branches:
   only:
-  - master
+    - master
+    - /v?^\d[\d.]+$/
 
 before_install:
-  - "pip install pipenv --upgrade"
+  - pip install pipenv --upgrade
 
 install:
-  - "pipenv install --dev"
+  - pipenv install --dev
 
 script:
-  - "pipenv run make build"
+  - pipenv run make test
 
 matrix:
   include:
-    - python: 3.5
     - python: 3.6
     - python: 3.7
+      dist: xenial
+      sudo: required
 
 deploy:
   provider: releases
