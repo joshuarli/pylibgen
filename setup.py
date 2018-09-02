@@ -8,7 +8,16 @@ SETUP_BASE = {
     'license': 'MIT',
     'author': 'Joshua Li',
     'author_email': 'joshua.r.li.98@gmail.com',
-    'keywords': 'libgen library genesis search download books ebooks textbooks',
+    'keywords': [
+        'libgen',
+        'library',
+        'genesis',
+        'search',
+        'download',
+        'books',
+        'ebooks',
+        'textbooks',
+    ],
     # 'packages': find_packages(exclude=['tests']),
     'py_modules': [
         'pylibgen',

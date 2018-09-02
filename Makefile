@@ -11,8 +11,7 @@ test:
 
 style:
 # Ensure PEP 8 compliant code.
-	true
-	# python3 setup.py flake8
+	python3 setup.py flake8
 
 build: clean test style
 # Builds the package into a source dist and a wheel binary,
