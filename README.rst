@@ -1,11 +1,11 @@
 pylibgen
 ========
 
-|PyPI Version| |Travis Status| |License MIT|
+|PyPI| |Travis CI| |License MIT|
 
-Python interface to Library Genesis.
+Python interface to Library Genesis. Currently, only the LibGen/Sci-Tech database is supported.
 
-Currently, only the LibGen/Sci-Tech database is supported.
+You may also be interested in `libgen-cli <https://github.com/JoshuaRLi/libgen-cli>`_.
 
 
 Installation
@@ -62,15 +62,15 @@ You'll need ``pipenv`` installed. To setup and enter the virtual environment for
 Disclaimer
 ----------
 
-Please use ``pylibgen`` with responsibility and at your own risk.
-I am not responsible or liable for any piracy, copyright infringement, or other offences committed by anyone using this software.
-Consider supporting your favorite authors by purchasing their works!
+Use ``pylibgen`` responsibly and at your own risk.
+The author(s) are not responsible or liable for any piracy, copyright infringement, or other offences committed by anyone using this software.
+Please consider supporting your favorite authors by purchasing their works!
 
 
-.. |PyPI Version| image:: https://img.shields.io/pypi/v/pylibgen.svg
-   :target: https://pypi.python.org/pypi/pylibgen
+.. |PyPI| image:: https://img.shields.io/pypi/v/pylibgen.svg
+   :target: https://pypi.org/project/pylibgen/
 
-.. |Travis Status| image:: https://travis-ci.org/JoshuaRLi/pylibgen.svg?branch=master
+.. |Travis CI| image:: https://travis-ci.org/JoshuaRLi/pylibgen.svg?branch=master
     :target: https://travis-ci.org/JoshuaRLi/pylibgen
 
 .. |License MIT| image:: https://img.shields.io/github/license/mashape/apistatus.svg
