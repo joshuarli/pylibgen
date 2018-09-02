@@ -11,7 +11,7 @@ You may also be interested in `libgen-cli <https://github.com/JoshuaRLi/libgen-c
 Installation
 ------------
 
-pylibgen is well-tested on Python 3.5 - 3.6, and can be installed via ``pip``. For example:
+pylibgen is well-tested on Python 3.5 - 3.7, and can be installed via ``pip``. For example:
 
 .. code-block:: sh
 
