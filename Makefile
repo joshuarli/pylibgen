@@ -2,12 +2,15 @@
 
 all: build
 
+todo:
+	@grep -ri TODO
+
 clean:
 	rm -rf __pycache__/ build/ dist/ *.egg-info/ .cache/
 
 test:
 # Local testing using the system python3 installation.
-	python3 -m pytest tests/test_*.py
+	python3 -m pytest -s tests/test_*.py
 
 style:
 # Ensure PEP 8 compliant code.
