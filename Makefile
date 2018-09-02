@@ -36,7 +36,7 @@ publish: build register
 	@read -p "Enter new version: " NEWVERSION           && \
 		echo "$$NEWVERSION" > VERSION                   && \
 		git add VERSION                                 && \
-		git commit -m "$$NEWVERSION"                    && \
-		git tag -a v"$$NEWVERSION" -m "$$NEWVERSION"    && \
+		git commit -S -m "$$NEWVERSION"                 && \
+		git tag -s -a v"$$NEWVERSION" -m "$$NEWVERSION" && \
 		git push -u origin --follow-tags                && \
 		python3 setup.py sdist bdist_wheel upload -r pypi
