@@ -1,27 +1,29 @@
 import os
 from setuptools import setup, find_packages
 
-# https://www.python.org/dev/peps/pep-0440/#pre-releases
-VERSION = "2.0.0b2"
-REPO = "https://github.com/JoshuaRLi/pylibgen"
+version = "2.0.0b2"
+url = "https://github.com/JoshuaRLi/pylibgen"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, "README.rst"), encoding="utf-8") as f:
-    LONG_DESC = f.read().strip()
+with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
+
+with open(os.path.join(here, "requirements.txt")) as f:
+    install_requires = f.read()
 
 setup(
     name="pylibgen",
-    version=VERSION,
+    version=version,
     description="Python interface to Library Genesis.",
-    long_description=LONG_DESC,
+    long_description=long_description,
     license="MIT",
-    url=REPO,
-    download_url="{}/archive/v{}.tar.gz".format(REPO, VERSION),
+    url=url,
+    download_url="{}/archive/v{}.tar.gz".format(url, version),
     author="Joshua Li",
-    author_email="joshua.r.li.98@gmail.com",
+    author_email="josh@jrl.ninja",
     maintainer="Joshua Li",
-    maintainer_email="joshua.r.li.98@gmail.com",
+    maintainer_email="josh@jrl.ninja",
     keywords=[
         "libgen",
         "library",
@@ -33,7 +35,7 @@ setup(
         "textbooks",
     ],
     packages=find_packages(exclude=("tests",)),
-    install_requires=["requests>=2.19,<2.20"],
+    install_requires=install_requires,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",

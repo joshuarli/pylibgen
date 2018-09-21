@@ -6,7 +6,7 @@ build: clean test
 	python setup.py sdist bdist_wheel --universal > /dev/null
 
 test:
-	python -m pytest -v -s tests/test_*.py
+	tox
 
 publish: build
 	python -m twine upload --sign dist/*

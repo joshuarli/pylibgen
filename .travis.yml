@@ -1,28 +1,31 @@
 language: python
 dist: trusty
 sudo: false
-cache: pip
 
 branches:
   only:
     - master
     - /^v?\d[\d.]+$/
 
-before_install:
-  - pip install pipenv --upgrade
-
 install:
-  - pipenv install --dev
+  - pip install pipenv tox
 
 script:
-  - pipenv run make test
+  - tox
 
 matrix:
   include:
     - python: 3.6
+      env: TOXENV=py36
     - python: 3.7
+      env: TOXENV=py37
       dist: xenial
       sudo: required
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - $HOME/.cache/pre-commit
 
 deploy:
   provider: releases

@@ -5,3 +5,5 @@ sdist/
 *.egg-info/
 *.egg
 .cache/
+.pytest_cache/
+.tox/
