@@ -1,6 +1,8 @@
-import requests
-import pylibgen
+# -*- coding: utf-8 -*-
 import pytest
+import requests
+
+import pylibgen
 
 
 def check_url(url):

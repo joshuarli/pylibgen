@@ -1,5 +1,7 @@
-import pylibgen
+# -*- coding: utf-8 -*-
 import pytest
+
+import pylibgen
 
 test_books = {
     # Automate the Boring Stuff with Python: Practical Programming for Total Beginners
@@ -31,13 +33,13 @@ test_books = {
 @pytest.mark.parametrize("test_book", list(test_books.items()))
 def test_mirror(mirror, test_book):
     search_params, md5_of_ids = test_book
-    l = pylibgen.Library(mirror)
-    ids = l.search(*search_params)
+    library = pylibgen.Library(mirror)
+    ids = library.search(*search_params)
 
     assert isinstance(ids, list)
     assert set(ids) == set(md5_of_ids.keys())
 
-    books = l.lookup(ids)
+    books = library.lookup(ids)
     assert isinstance(books, list)
     assert all((isinstance(b, pylibgen.Book) for b in books))
     for book in books:
@@ -46,6 +48,6 @@ def test_mirror(mirror, test_book):
 
 @pytest.mark.parametrize("mirror", pylibgen.constants.MIRRORS)
 def test_all_book_fields(mirror):
-    l = pylibgen.Library(mirror)
-    book = l.lookup("112887", fields=["*"])
+    library = pylibgen.Library(mirror)
+    book = library.lookup("112887", fields=["*"])
     assert set(book.__dict__.keys()) == pylibgen.constants.ALL_BOOK_FIELDS

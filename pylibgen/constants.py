@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from collections import namedtuple
 
 __Mirror = namedtuple("Mirror", ("name", "search", "lookup"))
@@ -15,7 +16,7 @@ MIRRORS = {
         "&open={open}"
         "&phrase={phrase}",
         "http://libgen.io/json.php" "?ids={ids}" "&fields={fields}",
-    )
+    ),
     # TODO gen.lib.rus.ec support
 }
 
@@ -33,19 +34,11 @@ SEARCH_BASE_PARAMS = {
     "phrase": 0,
 }
 
+# modes year, publisher, series, language, extension, tags are possible,
+# but way too general and not recommended.
+# AFAIK, there isn't a way to combine multiple search modes and respective
+# strings to filter down the search.
 SEARCH_MODES = ("title", "author", "isbn")
-"""
-The following modes are possible, but way too general and not recommended.
-AFAIK, there isn't a way to combine multiple search modes and respective
-strings to filter down the search.
-
-    'year',
-    'publisher',
-    'series',
-    'language',
-    'extension',
-    'tags',
-"""
 
 # strangely, libgen only allows these amounts.
 SEARCH_RESULTS_PER_PAGE = (25, 50, 100)

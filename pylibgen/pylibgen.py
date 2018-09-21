@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 import re
 from urllib.parse import quote_plus
 
 import requests
 
-from . import constants, exceptions
+from . import constants
+from . import exceptions
 
 
 class Library(object):
