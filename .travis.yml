@@ -6,7 +6,7 @@ cache: pip
 branches:
   only:
     - master
-    - /v?^\d[\d.]+$/
+    - /^v?\d[\d.]+$/
 
 before_install:
   - pip install pipenv --upgrade

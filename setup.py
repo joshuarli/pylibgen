@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 # https://www.python.org/dev/peps/pep-0440/#pre-releases
-VERSION = "2.0.0b1"
+VERSION = "2.0.0b2"
 REPO = "https://github.com/JoshuaRLi/pylibgen"
 
 here = os.path.abspath(os.path.dirname(__file__))
