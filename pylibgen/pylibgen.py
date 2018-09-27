@@ -127,7 +127,7 @@ class Library(object):
         """
         if isinstance(ids, (str, int)):
             ids = [ids]
-        ids = map(str, ids)
+        ids = tuple(map(str, ids))
 
         resp = self.__req(
             self.mirror.lookup, ids=",".join(ids), fields=",".join(fields)
