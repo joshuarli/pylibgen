@@ -129,6 +129,11 @@ class Library(object):
             ids = [ids]
         ids = tuple(map(str, ids))
 
+        if "id" not in fields:
+            fields.append("id")
+        if "*" in fields:
+            fields = ["*"]
+
         resp = self.__req(
             self.mirror.lookup, ids=",".join(ids), fields=",".join(fields)
         ).json()

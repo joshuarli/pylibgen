@@ -53,7 +53,7 @@ FILEHOST_URLS = {
 
 DEFAULT_FILEHOST = "libgen.pw"
 
-DEFAULT_BOOK_FIELDS = (
+DEFAULT_BOOK_FIELDS = [
     "title",
     "author",
     "year",
@@ -63,7 +63,8 @@ DEFAULT_BOOK_FIELDS = (
     "extension",
     "filesize",
     "md5",
-)
+    "id",
+]
 
 ALL_BOOK_FIELDS = {
     "aich",
