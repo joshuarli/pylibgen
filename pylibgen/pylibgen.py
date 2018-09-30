@@ -74,6 +74,9 @@ class Library(object):
 
         Returns:
             List of Library Genesis book IDs that matched the query.
+
+        Raises:
+            pylibgen.exceptions.LibraryException: unexpected/invalid search query.
         """
         if mode not in constants.SEARCH_MODES:
             raise exceptions.LibraryException(
@@ -124,6 +127,9 @@ class Library(object):
         Returns:
             iterator of Book objects corresponding to ids, with the specified
             fields filled out and accessible class property.
+
+        Raises:
+            requests.HTTPError: a 400 is raised if the response is empty.
         """
         if isinstance(ids, (str, int)):
             ids = [ids]
