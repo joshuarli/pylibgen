@@ -132,7 +132,7 @@ class Library(object):
         if "id" not in fields:
             fields.append("id")
         if "*" in fields:
-            fields = ["*"]
+            fields = list(**constants.ALL_BOOK_FIELDS)
 
         resp = self.__req(
             self.mirror.lookup, ids=",".join(ids), fields=",".join(fields)
@@ -143,8 +143,8 @@ class Library(object):
             # TODO: add test case for this and see if i can .json() afterwards
             raise requests.HTTPError(400)
 
-        for book_data, _id in zip(resp, ids):
-            assert book_data["id"] == _id
+        for book_data in resp:
+            assert book_data["id"] in ids,"Invalid ids returned"
             yield Book(**book_data)
 
     def __req(self, endpoint, **kwargs):
