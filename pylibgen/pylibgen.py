@@ -144,7 +144,7 @@ class Library(object):
             raise requests.HTTPError(400)
 
         for book_data in resp:
-            assert book_data["id"] in ids,"Invalid ids returned"
+            assert book_data["id"] in ids, "Invalid ids returned"
             yield Book(**book_data)
 
     def __req(self, endpoint, **kwargs):
