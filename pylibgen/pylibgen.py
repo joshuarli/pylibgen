@@ -132,7 +132,7 @@ class Library(object):
         if "id" not in fields:
             fields.append("id")
         if "*" in fields:
-            fields = list(**constants.ALL_BOOK_FIELDS)
+            fields = list(constants.ALL_BOOK_FIELDS)
 
         resp = self.__req(
             self.mirror.lookup, ids=",".join(ids), fields=",".join(fields)
