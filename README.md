@@ -6,14 +6,12 @@
 
 Python interface to Library Genesis. Currently, only the LibGen/Sci-Tech database is supported.
 
-You may also be interested in [libgen-cli](https://github.com/JoshuaRLi/libgen-cli).
+If you are an end user looking to interactively explore Library Genesis, then you might be more interested in [libgen-cli](https://github.com/JoshuaRLi/libgen-cli).
 
 
 ## Installation
 
-pylibgen is well-tested on Python 3.6 - 3.7, and can be installed via `pip`. For example:
-
-    python3 -m pip install pylibgen --user
+pylibgen is well-tested on Python 3.6 - 3.7, and can be installed via `pip`.
 
 
 ## Usage
@@ -45,18 +43,16 @@ There is no functionality to bypass any intermediate advertisement pages, and th
 
 ## Development Setup
 
-You'll need python 3.6 and 3.7, as well as `pipenv` and `tox` installed, preferably under the latest python. It's recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to install + manage python versions and executable modules. For example:
+You'll need python 3.6, python 3.7, and `tox`. It's recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to install + manage python versions and executable modules. For example:
 
     pyenv install 3.6.6
     pyenv install 3.7.0
     pyenv global 3.7.0 3.6.6
-    python3.7 -m pip install pipenv tox
+    python3.7 -m pip install tox
 
 To setup and enter the virtual environment for development:
 
-    pipenv install --dev
-    pipenv shell
-    pre-commit install
+    under construction
 
 
 ## Disclaimer
