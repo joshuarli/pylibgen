@@ -44,7 +44,8 @@ SEARCH_RESULTS_PER_PAGE = (25, 50, 100)
 
 FILEHOST_URLS = {
     "libgen.io": "http://libgen.io/ads.php?md5={md5}",
-    "ambry.pw": "https://ambry.pw/item/detail/id/{id}",
+    # currently unresolvable with 8.8.8.8, but works on quad9 and cloudflare
+    #    "ambry.pw": "https://ambry.pw/item/detail/id/{id}",
     "library1.org": "http://library1.org/_ads/{md5}",
     "b-ok.org": "http://b-ok.org/md5/{md5}",
     "bookfi.net": "http://bookfi.net/md5/{md5}",
