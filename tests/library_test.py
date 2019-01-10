@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from types import GeneratorType
 
 import pytest
@@ -18,6 +17,8 @@ test_books = {
         "1421206": "1af2c71c1342e850e1e47013b06f9eb9",
         "2149756": "2699081bc2e3908ece25013109941028",
         "2308943": "4dd22932bdaae6b35d947c3fc943e789",
+        "2308961": "f964817cbd1cbd76e5b6872b789c21fa",
+        "2308966": "4423eb3d3760978bf3a31c8f3bb87a41",
     },
     # Free software, free society: selected essays of Richard M. Stallman
     ("1882114981", "isbn"): {

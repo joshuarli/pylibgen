@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import re
 from typing import Iterator
 from typing import List
@@ -21,12 +20,12 @@ class Book(object):
 
     def __init__(self, **fields: str):
         self.__dict__.update(
-            {k: v for k, v in fields.items() if k in constants.ALL_BOOK_FIELDS}
+            {k: v for k, v in fields.items() if k in constants.ALL_BOOK_FIELDS},
         )
         for f in self.__MANDATORY_FIELDS:
             if f not in self.__dict__:
                 raise exceptions.BookException(
-                    "Book is missing mandatory field {}.".format(f)
+                    "Book is missing mandatory field {}.".format(f),
                 )
 
     def get_url(self, filehost=constants.DEFAULT_FILEHOST) -> str:
@@ -40,8 +39,8 @@ class Book(object):
         except KeyError:
             raise exceptions.BookException(
                 ('filehost "{}" not supported.\n' "Please specify one of: {}").format(
-                    filehost, ", ".join(constants.FILEHOST_URLS)
-                )
+                    filehost, ", ".join(constants.FILEHOST_URLS),
+                ),
             )
 
 
@@ -51,7 +50,7 @@ class Library(object):
     def __init__(self, mirror: str = constants.DEFAULT_MIRROR):
         if mirror not in constants.MIRRORS:
             raise NotImplementedError(
-                "Search mirror `{}` not supported.".format(mirror)
+                "Search mirror `{}` not supported.".format(mirror),
             )
         self.mirror = constants.MIRRORS[mirror]
 
@@ -59,7 +58,7 @@ class Library(object):
         return "<Library ({})>".format(self.mirror.name)
 
     def search(
-        self, query: str, mode: str = "title", page: int = 1, per_page: int = 25
+        self, query: str, mode: str = "title", page: int = 1, per_page: int = 25,
     ) -> List[str]:
         """Searches Library Genesis.
 
@@ -82,7 +81,7 @@ class Library(object):
             raise exceptions.LibraryException(
                 (
                     'Search mode "{}" not supported.\n' "Please specify one of: {}"
-                ).format(mode, ", ".join(constants.SEARCH_MODES))
+                ).format(mode, ", ".join(constants.SEARCH_MODES)),
             )
 
         if page <= 0:
@@ -94,8 +93,8 @@ class Library(object):
                     "{} results per page is not supported, sadly.\n"
                     "Please specify one of: {}"
                 ).format(
-                    per_page, ", ".join(map(str, constants.SEARCH_RESULTS_PER_PAGE))
-                )
+                    per_page, ", ".join(map(str, constants.SEARCH_RESULTS_PER_PAGE)),
+                ),
             )
 
         resp = self.__req(
@@ -141,7 +140,7 @@ class Library(object):
             fields = ["*"]
 
         resp = self.__req(
-            self.mirror.lookup, ids=",".join(ids), fields=",".join(fields)
+            self.mirror.lookup, ids=",".join(ids), fields=",".join(fields),
         ).json()
 
         if not resp:

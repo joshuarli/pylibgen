@@ -1,5 +1,5 @@
 language: python
-dist: trusty
+dist: xenial
 sudo: false
 
 branches:
@@ -18,8 +18,6 @@ matrix:
       env: TOXENV=py36
     - python: 3.7
       env: TOXENV=py37
-      dist: xenial
-      sudo: required
 
 cache:
   directories:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import namedtuple
 
 __Mirror = namedtuple("Mirror", ("name", "search", "lookup"))
