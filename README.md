@@ -50,14 +50,14 @@ You'll need python 3.6, python 3.7, and `tox`. It's recommended to use [`pyenv`]
     $ pyenv global 3.7.1 3.6.7  # put both pyenv-managed python3.6 and python3.7 on the PATH
     $ python3.7 -m pip install tox
 
-To setup a virtual environment for testing + development:
+To setup and enter a virtual environment for testing + development:
 
     $ tox -e setup
-    $ . venv/bin/activate  # optional, useful if you do not need to run the entire tox suite of tools and tests
+    $ . venv/bin/activate
 
-To run all tests and pre-commit hooks (do not do this in an activated `venv` because you need pyenv `python3.6` and `python3.7`):
+To run all tests and pre-commit hooks:
 
-    $ tox
+    (venv) $ tox
 
 
 ## Disclaimer
