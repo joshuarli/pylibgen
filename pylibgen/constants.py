@@ -44,14 +44,14 @@ SEARCH_MODES = ("title", "author", "isbn")
 SEARCH_RESULTS_PER_PAGE = (25, 50, 100)
 
 FILEHOST_URLS = {
-    "libgen.pw": "https://libgen.pw/item/detail/id/{id}",
     "libgen.io": "http://libgen.io/ads.php?md5={md5}",
+    "ambry.pw": "https://ambry.pw/item/detail/id/{id}",
     "library1.org": "http://library1.org/_ads/{md5}",
     "b-ok.org": "http://b-ok.org/md5/{md5}",
     "bookfi.net": "http://bookfi.net/md5/{md5}",
 }
 
-DEFAULT_FILEHOST = "libgen.pw"
+DEFAULT_FILEHOST = "libgen.io"
 
 DEFAULT_BOOK_FIELDS = [
     "title",

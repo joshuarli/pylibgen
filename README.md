@@ -27,8 +27,8 @@ pylibgen is well-tested on Python 3.6 - 3.7, and can be installed via `pip insta
 {'id': '112887', 'title': 'Free software, free society: selected essays of Richard M. Stallman', 'author': 'Richard M. Stallman, Lawrence Lessig, Joshua Gay, Laurence Lessig', 'year': '2002', 'edition': 'First Printing, First Edition', 'pages': '230', 'identifier': '9781882114986,1882114981', 'extension': 'pdf', 'filesize': '2210323', 'md5': '861C055B960E7F36D95164CAB34E0E97'}
 >>> book2.__dict__
 {'id': '310297', 'title': 'Free Software Free Society: Selected Essays of Richard Stallman', 'author': 'Richard Stallman', 'year': '2010', 'edition': '2nd Edition', 'pages': '278', 'identifier': '0983159203,9780983159209', 'extension': 'pdf', 'filesize': '1597349', 'md5': '6C3C2593BBB5D77154D50DFDDC0EA669'}
->>> book1.get_url()
-'https://libgen.pw/item/detail/id/112887'
+>>> book1.get_url(filehost='ambry.pw')
+'https://ambry.pw/item/detail/id/112887'
 >>> book1.get_url(filehost='b-ok.org')
 'http://b-ok.org/md5/861C055B960E7F36D95164CAB34E0E97'
 ```
