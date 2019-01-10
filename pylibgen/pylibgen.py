@@ -105,7 +105,7 @@ class Library(object):
             page=page,
             per_page=per_page,
         )
-        return re.findall("<tr.*?><td>(\d+)", resp.text)
+        return re.findall(r"<tr.*?><td>(\d+)", resp.text)
 
     def lookup(
         self,

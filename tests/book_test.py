@@ -12,8 +12,8 @@ def check_url(url):
 
 @pytest.mark.parametrize("fh", pylibgen.constants.FILEHOST_URLS)
 def test_filehosts(fh):
-    b = pylibgen.Book(id=1421206, md5="1af2c71c1342e850e1e47013b06f9eb9")
+    b = pylibgen.Book(id=1_421_206, md5="1af2c71c1342e850e1e47013b06f9eb9")
     try:
         check_url(b.get_url(fh))
-    except requests.exceptions.ReadTimeout as e:
+    except requests.exceptions.ReadTimeout:
         pytest.xfail(f"Attempt to reach filehost {fh} timed out.")

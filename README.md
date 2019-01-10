@@ -4,14 +4,14 @@
 [![Travis CI](https://travis-ci.org/JoshuaRLi/pylibgen.svg?branch=master)](https://travis-ci.org/JoshuaRLi/pylibgen)
 [![License MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/JoshuaRLi/pylibgen/blob/master/LICENSE)
 
-Python interface to Library Genesis. Currently, only the LibGen/Sci-Tech database is supported.
+Python interface to Library Genesis. Only the LibGen/Sci-Tech database is supported.
 
 If you are an end user looking to interactively explore Library Genesis, then you might be more interested in [libgen-cli](https://github.com/JoshuaRLi/libgen-cli).
 
 
 ## Installation
 
-pylibgen is well-tested on Python 3.6 - 3.7, and can be installed via `pip`.
+pylibgen is well-tested on Python 3.6 - 3.7, and can be installed via `pip install pylibgen`.
 
 
 ## Usage
@@ -43,16 +43,21 @@ There is no functionality to bypass any intermediate advertisement pages, and th
 
 ## Development Setup
 
-You'll need python 3.6, python 3.7, and `tox`. It's recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to install + manage python versions and executable modules. For example:
+You'll need python 3.6, python 3.7, and `tox`. It's recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to install + manage python versions and executable modules. An example:
 
-    pyenv install 3.6.6
-    pyenv install 3.7.0
-    pyenv global 3.7.0 3.6.6
-    python3.7 -m pip install tox
+    $ pyenv install 3.6.7
+    $ pyenv install 3.7.1
+    $ pyenv global 3.7.1 3.6.7  # put both pyenv-managed python3.6 and python3.7 on the PATH
+    $ python3.7 -m pip install tox
 
-To setup and enter the virtual environment for development:
+To setup a virtual environment for testing + development:
 
-    under construction
+    $ tox -e setup
+    $ . venv/bin/activate  # optional, useful if you do not need to run the entire tox suite of tools and tests
+
+To run all tests and pre-commit hooks (do not do this in an activated `venv` because you need pyenv `python3.6` and `python3.7`):
+
+    $ tox
 
 
 ## Disclaimer

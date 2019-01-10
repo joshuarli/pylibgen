@@ -15,6 +15,6 @@ publish: build
 
 .PHONY: clean
 clean:
-	rm -rf build/ dist/ *.egg-info/
+	rm -rf venv/ build/ dist/ *.egg-info/
 	find -type f -iname '*.pyc' -delete
 	find -type d -iname '__pycache__' -delete
