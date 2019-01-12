@@ -6,7 +6,7 @@
 
 Python interface to Library Genesis. Only the LibGen/Sci-Tech database is supported.
 
-If you are an end user looking to interactively explore Library Genesis, then you might be more interested in [libgen-cli](https://github.com/JoshuaRLi/libgen-cli).
+**This project is archived and not maintained as of the 2.0.0 release.** I am willing to make or accept pull requests for small maintenance releases if they are trivial, but any changes required due to major/breaking changes with libgen's internals will not be implemented.
 
 
 ## Installation
