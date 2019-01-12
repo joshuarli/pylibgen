@@ -16,3 +16,8 @@ def test_filehosts(fh):
         check_url(b.get_url(fh))
     except requests.exceptions.ReadTimeout:
         pytest.xfail(f"Attempt to reach filehost {fh} timed out.")
+    except requests.exceptions.SSLError:
+        pytest.xfail(
+            f"SSLError occurred with filehost {fh}, but an actual browser"
+            "might have the appropriate certs.",
+        )
