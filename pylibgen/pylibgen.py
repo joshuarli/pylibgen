@@ -16,7 +16,7 @@ class Book(object):
     Class properties are dynamically set during initialization if all fields are valid.
     """
 
-    __MANDATORY_FIELDS = ("id", "md5")
+    __MANDATORY_FIELDS = ('id', 'md5')
 
     def __init__(self, **fields: str):
         self.__dict__.update(
@@ -29,7 +29,6 @@ class Book(object):
                 )
 
     def get_url(self, filehost=constants.DEFAULT_FILEHOST) -> str:
-        # TODO: map a filehost alias to url fstring and raise bookexception on keyerror
         url = self.__fmt_filehost_url(filehost, id=self.id, md5=self.md5)
         return url
 
@@ -38,7 +37,7 @@ class Book(object):
             return constants.FILEHOST_URLS[filehost].format(**kwargs)
         except KeyError:
             raise exceptions.BookException(
-                ('filehost "{}" not supported.\n' "Please specify one of: {}").format(
+                "filehost {} not supported.\nPlease specify one of: {}".format(
                     filehost, ", ".join(constants.FILEHOST_URLS),
                 ),
             )
@@ -50,7 +49,7 @@ class Library(object):
     def __init__(self, mirror: str = constants.DEFAULT_MIRROR):
         if mirror not in constants.MIRRORS:
             raise NotImplementedError(
-                "Search mirror `{}` not supported.".format(mirror),
+                "Search mirror {} not supported.".format(mirror),
             )
         self.mirror = constants.MIRRORS[mirror]
 
@@ -79,13 +78,13 @@ class Library(object):
         """
         if mode not in constants.SEARCH_MODES:
             raise exceptions.LibraryException(
-                (
-                    'Search mode "{}" not supported.\n' "Please specify one of: {}"
-                ).format(mode, ", ".join(constants.SEARCH_MODES)),
+                "Search mode {} not supported.\nPlease specify one of: {}".format(
+                    mode, ", ".join(constants.SEARCH_MODES),
+                ),
             )
 
         if page <= 0:
-            raise exceptions.LibraryException("page number must be > 0.")
+            raise exceptions.LibraryException('page number must be > 0.')
 
         if per_page not in constants.SEARCH_RESULTS_PER_PAGE:
             raise exceptions.LibraryException(
@@ -104,7 +103,7 @@ class Library(object):
             page=page,
             per_page=per_page,
         )
-        return re.findall(r"<tr.*?><td>(\d+)", resp.text)
+        return re.findall(r'<tr.*?><td>(\d+)', resp.text)
 
     def lookup(
         self,
@@ -134,22 +133,26 @@ class Library(object):
             ids = [ids]
         ids = tuple(map(str, ids))
 
-        if "id" not in fields:
-            fields.append("id")
-        if "*" in fields:
-            fields = ["*"]
+        if 'id' not in fields:
+            fields.append('id')
+        if '*' in fields:
+            fields = ['*']
 
         resp = self.__req(
-            self.mirror.lookup, ids=",".join(ids), fields=",".join(fields),
+            self.mirror.lookup,
+            ids=','.join(ids),
+            fields=','.join(fields),
         ).json()
 
         if not resp:
+            # In rare cases, certain queries can result in a [] resp, e.g.
             # https://github.com/JoshuaRLi/pylibgen/pull/3
-            # TODO: add test case for this and see if i can .json() afterwards
+            # As of Jan 12 2019 the example in the PR has been resolved,
+            # but we're going to keep this here just in case.
             raise requests.HTTPError(400)
 
         for book_data, _id in zip(resp, ids):
-            assert book_data["id"] == _id
+            assert book_data['id'] == _id
             yield Book(**book_data)
 
     def __req(self, endpoint, **kwargs):
