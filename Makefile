@@ -3,7 +3,7 @@ all: build
 
 .PHONY: build
 build: clean test
-	python setup.py sdist bdist_wheel --universal > /dev/null
+	python setup.py sdist bdist_wheel > /dev/null
 
 .PHONY: test
 test:
