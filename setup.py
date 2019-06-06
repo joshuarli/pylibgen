@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-version = "2.0.1"
+version = "2.0.2"
 url = "https://github.com/JoshuaRLi/pylibgen"
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -50,7 +50,7 @@ setup(
         "dev": dev_requires,
     },
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 7 - Inactive",
         "Intended Audience :: Developers",
         "Topic :: Software Development",
         "Natural Language :: English",
