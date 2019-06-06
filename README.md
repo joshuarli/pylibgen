@@ -43,19 +43,22 @@ There is no functionality to bypass any intermediate advertisement pages, and th
 
 You'll need python 3.6, python 3.7, and `tox`. It's recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to install + manage python versions and executable modules. An example:
 
-    $ pyenv install 3.6.7
-    $ pyenv install 3.7.1
-    $ pyenv global 3.7.1 3.6.7  # put both pyenv-managed python3.6 and python3.7 on the PATH
-    $ python3.7 -m pip install tox
+    $ pyenv install 3.6.8
+    $ pyenv install 3.7.3
+    $ pyenv global 3.7.3 3.6.8  # puts both pyenv-managed python3.6 and python3.7 on the PATH for tox
+    $ python3.7 -m pip install tox  # python will be resolved to 3.7.3 by pyenv's shim, this is just being explicit
 
-To setup and enter a virtual environment for testing + development:
+To run pre-commit hooks and tests for all supported python versions:
 
-    $ tox -e setup
-    $ . venv/bin/activate
+    $ tox
 
-To run all tests and pre-commit hooks:
+To enter the version-specific virtualenv created above (you'll need this to commit with `pre-commit` hooks):
 
-    (venv) $ tox
+    $ source .tox/py37/bin/activate
+
+To only create the tox virtualenvs without running any (test) commands:
+
+    $ tox --notest
 
 
 ## Disclaimer

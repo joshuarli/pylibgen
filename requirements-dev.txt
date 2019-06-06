@@ -1,4 +1,2 @@
-pre-commit==1.14.0
-pytest==4.1.0
-twine==1.12.1
-wheel==0.32.3
+pre-commit==1.16.*
+pytest==4.*

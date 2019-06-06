@@ -3,7 +3,8 @@ all: build
 
 .PHONY: build
 build: clean test
-	python setup.py sdist bdist_wheel > /dev/null
+	python -m pip install --upgrade setuptools wheel
+	python setup.py sdist bdist_wheel
 
 .PHONY: test
 test:
@@ -11,6 +12,7 @@ test:
 
 .PHONY: publish
 publish: build
+	python -m pip install --upgrade twine
 	python -m twine upload --sign dist/*
 
 .PHONY: clean
