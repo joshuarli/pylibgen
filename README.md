@@ -48,7 +48,7 @@ You'll need python 3.6, python 3.7, and `tox`. It's recommended to use [`pyenv`]
     $ pyenv global 3.7.3 3.6.8  # puts both pyenv-managed python3.6 and python3.7 on the PATH for tox
     $ python3.7 -m pip install tox  # python will be resolved to 3.7.3 by pyenv's shim, this is just being explicit
 
-To run pre-commit hooks and tests for all supported python versions:
+To run pre-commit hooks and tests for all supported python versions (make sure you're not in a virtualenv before running this):
 
     $ tox
 
