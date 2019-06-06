@@ -19,10 +19,13 @@ test_books = {
         "2308943": "4dd22932bdaae6b35d947c3fc943e789",
         "2308961": "f964817cbd1cbd76e5b6872b789c21fa",
         "2308966": "4423eb3d3760978bf3a31c8f3bb87a41",
+        "2318822": "42b5a4990f66ff4ee5a426a09230d25b",
+        "2337526": "ac5e8b50ed98f8a0714a454293317594",
     },
     # Free software, free society: selected essays of Richard M. Stallman
     ("1882114981", "isbn"): {
         "112887": "861c055b960e7f36d95164cab34e0e97",
+        "2340415": "bf0f4e004b6d29086a7d3197e2a624cb",
         "310297": "3b46ed45310545cc1f6d7b627f9b640d",
     },
     # Same as above, but ISBN 13 instead of 10
