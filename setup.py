@@ -11,8 +11,9 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md")) as f:
     long_description = f.read()
 
-with open(os.path.join(here, "requirements.txt")) as f:
-    install_requires = f.read()
+install_requires = []
+# with open(os.path.join(here, "requirements.txt")) as f:
+#     install_requires = f.read()
 
 with open(os.path.join(here, "requirements-dev.txt")) as f:
     dev_requires = f.read()

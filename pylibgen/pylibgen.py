@@ -1,10 +1,8 @@
+import http.client
 import re
 from typing import Iterator
 from typing import List
 from typing import Union
-from urllib.parse import quote_plus
-
-import requests
 
 from . import constants
 from . import exceptions
@@ -29,12 +27,11 @@ class Book(object):
                 )
 
     def get_url(self, filehost=constants.DEFAULT_FILEHOST) -> str:
-        url = self.__fmt_filehost_url(filehost, id=self.id, md5=self.md5)
-        return url
+        return self.__fmt_filehost_url(filehost, id=self.id, md5=self.md5)
 
     def __fmt_filehost_url(self, filehost, **kwargs):
         try:
-            return constants.FILEHOST_URLS[filehost].format(**kwargs)
+            return f"http://{filehost}/{constants.FILEHOSTS[filehost].format(**kwargs)}"
         except KeyError:
             raise exceptions.BookException(
                 "filehost {} not supported.\nPlease specify one of: {}".format(
@@ -52,6 +49,10 @@ class Library(object):
                 "Search mirror {} not supported.".format(mirror),
             )
         self.mirror = constants.MIRRORS[mirror]
+        self.http_client = http.client.HTTPConnection(
+            self.mirror.name,
+            timeout=self.mirror.timeout,
+        )
 
     def __repr__(self):
         return "<Library ({})>".format(self.mirror.name)
@@ -74,7 +75,8 @@ class Library(object):
             List of Library Genesis book IDs that matched the query.
 
         Raises:
-            pylibgen.exceptions.LibraryException: unexpected/invalid search query.
+            pylibgen.exceptions.LibraryException: unexpected/invalid search query,
+                or unexpected network response.
         """
         if mode not in constants.SEARCH_MODES:
             raise exceptions.LibraryException(
@@ -96,14 +98,14 @@ class Library(object):
                 ),
             )
 
-        resp = self.__req(
+        raw_data = self.__req(
             self.mirror.search,
-            req=quote_plus(query),
+            req=query,
             mode=mode,
             page=page,
             per_page=per_page,
         )
-        return re.findall(r'<tr.*?><td>(\d+)', resp.text)
+        return re.findall(r'<tr.*?><td>(\d+)', raw_data)
 
     def lookup(
         self,
@@ -127,7 +129,7 @@ class Library(object):
             fields filled out and accessible class property.
 
         Raises:
-            requests.HTTPError: a 400 is raised if the response is empty.
+            pylibgen.exceptions.LibraryException: unexpected network response.
         """
         if isinstance(ids, (str, int)):
             ids = [ids]
@@ -138,24 +140,26 @@ class Library(object):
         if '*' in fields:
             fields = ['*']
 
-        resp = self.__req(
+        raw_data = self.__req(
             self.mirror.lookup,
             ids=','.join(ids),
             fields=','.join(fields),
-        ).json()
+        )
 
-        if not resp:
-            # In rare cases, certain queries can result in a [] resp, e.g.
-            # https://github.com/JoshuaRLi/pylibgen/pull/3
-            # As of Jan 12 2019 the example in the PR has been resolved,
-            # but we're going to keep this here just in case.
-            raise requests.HTTPError(400)
-
-        for book_data, _id in zip(resp, ids):
+        for book_data, _id in zip(raw_data.json(), ids):
             assert book_data['id'] == _id
             yield Book(**book_data)
 
     def __req(self, endpoint, **kwargs):
-        r = requests.get(endpoint.format(**constants.SEARCH_BASE_PARAMS, **kwargs))
-        r.raise_for_status()
-        return r
+        # note that mirrors are http; if they ever do provide https, it would be nice to default to
+        # HTTPSConnection. also for http, provide optional http proxy args
+        page = endpoint.format(**constants.SEARCH_BASE_PARAMS, **kwargs)
+        self.http_client.request("GET", page)
+        r = self.http_client.getresponse()
+        if r.status != 200:
+            raise exceptions.LibraryException(
+                f"{self.__repr__()}: Network request to {page} "
+                f"resulted in unexpected response code {r.status}.",
+            )
+        raw_data = r.read()
+        return raw_data

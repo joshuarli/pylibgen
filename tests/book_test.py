@@ -1,23 +1,22 @@
+import http.client
+from urllib.parse import urlsplit
+
 import pytest
-import requests
 
 import pylibgen
 
 
-def check_url(url):
-    r = requests.head(url, allow_redirects=True, timeout=3)
-    r.raise_for_status()
+def check(url):
+    u = urlsplit(url)
+    # as with libraries, filehosts are also http, and it would be nice to check for https support
+    # if filehosts ever switch over. In that case, also add SSL error checking, and don't xfail it.
+    conn = http.client.HTTPConnection(u.netloc, timeout=5)
+    conn.request("HEAD", u.path + u.query)
+    r = conn.getresponse()
+    return r.status == 200
 
 
-@pytest.mark.parametrize("fh", pylibgen.constants.FILEHOST_URLS)
-def test_filehosts(fh):
+@pytest.mark.parametrize("filehost", pylibgen.constants.FILEHOSTS)
+def test_filehosts(filehost):
     b = pylibgen.Book(id=1_421_206, md5="1af2c71c1342e850e1e47013b06f9eb9")
-    try:
-        check_url(b.get_url(fh))
-    except requests.exceptions.ReadTimeout:
-        pytest.xfail(f"Attempt to reach filehost {fh} timed out.")
-    except requests.exceptions.SSLError:
-        pytest.xfail(
-            f"SSLError occurred with filehost {fh}, but an actual browser"
-            "might have the appropriate certs.",
-        )
+    check(b.get_url(filehost))

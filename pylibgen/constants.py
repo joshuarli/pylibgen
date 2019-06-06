@@ -1,11 +1,11 @@
 from collections import namedtuple
 
-__Mirror = namedtuple("Mirror", ("name", "search", "lookup"))
+__Mirror = namedtuple("Mirror", ("name", "search", "lookup", "timeout"))
 
 MIRRORS = {
     "libgen.io": __Mirror(
         "libgen.io",
-        "http://libgen.io/search.php"
+        "search.php"
         "?req={req}"
         "&page={page}"
         "&res={per_page}"
@@ -14,7 +14,10 @@ MIRRORS = {
         "&view={view}"
         "&open={open}"
         "&phrase={phrase}",
-        "http://libgen.io/json.php" "?ids={ids}" "&fields={fields}",
+        "json.php"
+        "?ids={ids}"
+        "&fields={fields}",
+        5,
     ),
     # TODO gen.lib.rus.ec support
 }
@@ -42,13 +45,13 @@ SEARCH_MODES = ("title", "author", "isbn")
 # strangely, libgen only allows these amounts.
 SEARCH_RESULTS_PER_PAGE = (25, 50, 100)
 
-FILEHOST_URLS = {
-    "libgen.io": "http://libgen.io/ads.php?md5={md5}",
+FILEHOSTS = {
+    "libgen.io": "ads.php?md5={md5}",
     # currently unresolvable with 8.8.8.8, but works on quad9 and cloudflare
     #    "ambry.pw": "https://ambry.pw/item/detail/id/{id}",
-    "library1.org": "http://library1.org/_ads/{md5}",
-    "b-ok.org": "http://b-ok.org/md5/{md5}",
-    "bookfi.net": "http://bookfi.net/md5/{md5}",
+    "library1.org": "_ads/{md5}",
+    "b-ok.org": "md5/{md5}",
+    "bookfi.net": "md5/{md5}",
 }
 
 DEFAULT_FILEHOST = "libgen.io"
