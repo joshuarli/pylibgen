@@ -3,9 +3,9 @@ from collections import namedtuple
 __Mirror = namedtuple("Mirror", ("name", "search", "lookup"))
 
 MIRRORS = {
-    "libgen.io": __Mirror(
-        "libgen.io",
-        "http://libgen.io/search.php"
+    "libgen.is": __Mirror(
+        "libgen.is",
+        "http://libgen.is/search.php"
         "?req={req}"
         "&page={page}"
         "&res={per_page}"
@@ -14,12 +14,12 @@ MIRRORS = {
         "&view={view}"
         "&open={open}"
         "&phrase={phrase}",
-        "http://libgen.io/json.php" "?ids={ids}" "&fields={fields}",
+        "http://libgen.is/json.php" "?ids={ids}" "&fields={fields}",
     ),
     # TODO gen.lib.rus.ec support
 }
 
-DEFAULT_MIRROR = "libgen.io"
+DEFAULT_MIRROR = "libgen.is"
 
 # these query parameters for mirror/search.php are pinned.
 SEARCH_BASE_PARAMS = {
@@ -43,7 +43,7 @@ SEARCH_MODES = ("title", "author", "isbn")
 SEARCH_RESULTS_PER_PAGE = (25, 50, 100)
 
 FILEHOST_URLS = {
-    "libgen.io": "http://libgen.io/ads.php?md5={md5}",
+    "libgen.is": "http://libgen.is/ads.php?md5={md5}",
     # currently unresolvable with 8.8.8.8, but works on quad9 and cloudflare
     #    "ambry.pw": "https://ambry.pw/item/detail/id/{id}",
     "library1.org": "http://library1.org/_ads/{md5}",
