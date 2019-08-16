@@ -6,7 +6,7 @@
 
 Python interface to Library Genesis. Only the LibGen/Sci-Tech database is supported.
 
-**This project is largely unmaintained as of the 2.0.2 release.** I am willing to make or accept pull requests for small maintenance releases if they are trivial, but any changes required due to major/breaking changes with libgen's internals will not be implemented.
+**This project is unmaintained as of the 2.0.2 release.** Feel free to maintain a public fork, or just patch my existing code in any way you see fit, privately.
 
 
 ## Installation
